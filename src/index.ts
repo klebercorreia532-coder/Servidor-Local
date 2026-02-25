@@ -1,16 +1,21 @@
 import express from "express";
+import { adicionarServico } from "./servico.js";
+
+
 
 const app = express();
   
 const costante =""
 let variavvel ="variavvel"
 
-
+app.get("/adicionar-servico", (req, res) => {
+  const novoServico = req.body;
+  adicionarServico(novoServico)
+})
 
 
 
 app.get("/hello",  (req, res) => { 
-    console.log("Hello World");
     res.send("Hello World");
 });
   app.listen(8080, () => {
