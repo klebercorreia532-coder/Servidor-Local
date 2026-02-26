@@ -18,7 +18,7 @@ interface ServicoType {
 
 let catalogoDeServicos: ServicoType[] = [];
 
-
+// adicionar um  serniso novo
 export function adicionarServico(novoServico: ServicoType): Responsetype {
     {
         if (!novoServico.nome || novoServico.precoHora <= 0) {
@@ -38,7 +38,11 @@ export function adicionarServico(novoServico: ServicoType): Responsetype {
         }
 
         if (existe) {
-            return {`Erro: O serviço '${novoServico.nome}' já está cadastrado.`};
+            return {
+                status: false,
+                mensagem: `Erro: O serviço '${novoServico.nome}' já está cadastrado.`,
+                data: null
+            };
         }
 
 
@@ -52,3 +56,42 @@ export function adicionarServico(novoServico: ServicoType): Responsetype {
         };
     };
 }
+// listar todos os serviços
+export function listarServicos(): ServicoType[] {
+//TODO: implementar a fetch listarServicos
+
+return catalogoDeServicos;
+}
+// apagar um serviço
+
+export function apagarServico(nome: string): boolean {
+    //TODO: implementar a fetch apagarServico
+
+
+const novoCatalogoTemp: ServicoType[] = [];
+
+for ( let i = 0; i < catalogoDeServicos.length; i++) {
+    if (catalogoDeServicos[i]?.nome !== undefined && catalogoDeServicos[i]?.nome !== nome ) {
+novoCatalogoTemp.push(catalogoDeServicos[i]!)
+}
+}
+// devolver um novo catalogo sem o servico que foi apagado
+
+catalogoDeServicos = novoCatalogoTemp;
+
+return true;
+}
+
+// obter um servico pela nome
+export function obterServicoPorNome(nome: string): ServicoType | null {
+    for (let i = 0; i < catalogoDeServicos.length; i++) {
+        if (catalogoDeServicos[i]?.nome === nome) {
+            return catalogoDeServicos[i]!;
+        }
+    }
+    return null;
+}
+
+
+
+
