@@ -1,8 +1,6 @@
 import express, { type Request, type Response } from "express";
 import { adicionarServico, listarServicos, apagarServico, obterServicoPorNome} from "./servico.js";
-
-
-
+import { calcularOrcamento, selecionarServico } from "./orcamento.js";
 const app = express();
 
 app.use(express.json());
@@ -64,6 +62,25 @@ app.get("/obter-servico", (req: Request, res: Response) => {
     });
   }
 });
+
+
+// rota para selecionar um serviço
+app.post("/selecionar-servico", (req: Request, res: Response) => {
+  const { nome } = req.body;
+
+  const selecionarServicoResponse = selecionarServico(nome as string);
+
+  res.json(selecionarServicoResponse);
+})
+  
+
+// rota para calcular orcamento
+app.post("/calcular-orcamento", (req: Request, res: Response) => {
+  const { pedido } = req.body;
+  const calcularOrcamentoResponse = calcularOrcamento(pedido);
+  res.json(calcularOrcamentoResponse);
+})
+
 
 app.listen(8080, () => {
   console.log('Servidor a correr  na porta 8080')
