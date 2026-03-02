@@ -1,6 +1,6 @@
 import { hasSubscribers } from "node:diagnostics_channel";
 import { catalogarServicos } from "./servico.js";
-import { type ServicoType, type PedidoServico } from "./utils/types.js";
+import { type ServicoType, type PedidoServico, type PrestadorType } from "./utils/types.js";
 
 const taxaUrgencia: number = 0.2;
 const mnnimoDesconto: number = 1000;
@@ -8,6 +8,8 @@ const percentagemDesconto: number = 0.1;
 
 
 const servicosSelecionadas: ServicoType[] = [];
+const prestadoresDeServico: PrestadorType[] = [];
+const prestadoresSelecionados: PrestadorType[] = [];
 
 // Funcao para selecionar servico e horaEstimada
 export function selecionarServico(nome: string) {
@@ -20,15 +22,32 @@ export function selecionarServico(nome: string) {
     }
     return false;
 }
+// Funcao para criar prestadores de servico
+export function criarPrestadoresDeServico(novoPrestador: PrestadorType) {
+    //verificar se o prestador ja esta no array
+    prestadoresDeServico.map((prestadorExistente: PrestadorType) => {
+        if (prestadorExistente.nome === novoPrestador.nome) {
+            return {
+                status: false,
+                mensagem: "Prestador já existe",
+                data: null
+            }
 
+        }
+    })
+}
 // Funcao para calcular orcamento
 
 export function calcularOrcamento(pedido: PedidoServico) {
     let totalBruto: number = 0;
     let totalFinal: number = 0;
 
+
+
     servicosSelecionadas.map((servico) => {
         let totalServico: number = servico.precoHora * pedido.horasEstimadas;
+
+
         totalBruto = totalBruto + totalServico;
     })
 
@@ -39,6 +58,8 @@ export function calcularOrcamento(pedido: PedidoServico) {
     if (totalBruto > mnnimoDesconto) {
         totalFinal = totalFinal - (totalFinal * percentagemDesconto);
     }
+
+
 
     return totalFinal;
 

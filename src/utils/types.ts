@@ -19,3 +19,11 @@ export interface Responsetype {
     mensagem: string;
     data: ServicoType | null;
 }
+export interface PrestadorType {
+    nome: string;
+    precoHora: number;
+    propfissao: string;
+    minimoDesconto: number;
+    percentagemDesconto: number;
+    taxaUrgencia: number;
+}

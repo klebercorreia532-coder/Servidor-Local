@@ -70,14 +70,20 @@ app.post("/selecionar-servico", (req: Request, res: Response) => {
 
   const selecionarServicoResponse = selecionarServico(nome as string);
 
-  res.json(selecionarServicoResponse);
-})
-  
+  res.json({
+    mensagem:"Orcamento calculado com sucesso",
+    orcamentoTotal: calcularOrcamento
+})}
+)
 
 // rota para calcular orcamento
 app.post("/calcular-orcamento", (req: Request, res: Response) => {
   const { pedido } = req.body;
+
+  
   const calcularOrcamentoResponse = calcularOrcamento(pedido);
+
+
   res.json(calcularOrcamentoResponse);
 })
 
