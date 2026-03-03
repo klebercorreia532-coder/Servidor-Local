@@ -1,6 +1,7 @@
 import { hasSubscribers } from "node:diagnostics_channel";
 import { catalogarServicos } from "./servico.js";
-import { type ServicoType, type PedidoServico, type PrestadorType } from "./utils/types.js";
+import { type ServicoType, type PedidoServico, type PrestadorType, type prestadoresDeServico } from "./utils/types.js";
+import e from "express";
 
 const taxaUrgencia: number = 0.2;
 const mnnimoDesconto: number = 1000;
@@ -22,6 +23,25 @@ export function selecionarServico(nome: string) {
     }
     return false;
 }
+
+// selecionar prestador de servico
+
+export function selecionarPrestador(nomeDoPrestador: string) {
+    // ciclo for que percorre o array de prestadores de servico e verifica se o nome do prestador existe
+    for (let i = 0; i < prestadoresDeServico.length; i++) {
+        if (prestadoresDeServico[i]?.nome === nomeDoPrestador) {
+            //se for igual, adicionar o item [i] ao array de prestadoresSelecionados e retornar uma mensagem de sucesso
+            prestadoresSelecionados.push(prestadoresDeServico[i]!);
+            return true;
+        }
+    }
+    //  se nao existe
+    return false;
+}
+
+
+
+
 // Funcao para criar prestadores de servico
 export function criarPrestadoresDeServico(novoPrestador: PrestadorType) {
     //verificar se o prestador ja esta no array
@@ -34,6 +54,7 @@ export function criarPrestadoresDeServico(novoPrestador: PrestadorType) {
             }
 
         }
+
     })
 }
 // Funcao para calcular orcamento
@@ -60,8 +81,11 @@ export function calcularOrcamento(pedido: PedidoServico) {
     }
 
 
-
     return totalFinal;
+}
+
+
+
 
     //() => {} --- function
     //forEach() => {} --- function normal
@@ -80,4 +104,3 @@ export function calcularOrcamento(pedido: PedidoServico) {
     desconto sobe total final: 1200 * 0.1 = 120
     desconto sobre total final: 1200 - 120 = 1080
     */
-}

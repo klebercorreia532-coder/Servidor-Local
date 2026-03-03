@@ -27,3 +27,11 @@ export interface PrestadorType {
     percentagemDesconto: number;
     taxaUrgencia: number;
 }
+export interface prestadoresDeServico {
+    nome: string;
+    precoHora: number;
+    propfissao: string;
+    minimoDesconto: number;
+    percentagemDesconto: number;
+    taxaUrgencia: number;
+}
