@@ -1,7 +1,7 @@
 import express, { type Request, type Response } from "express";
 import { adicionarServico, listarServicos, apagarServico, obterServicoPorNome } from "./servico.js";
-import { calcularOrcamento, selecionarServico } from "./orcamento.js";
-import { selecionarPrestador, criarPrestadoresDeServico,  } from "./orcamento.js";
+import { apagarPrestadorDeServico, calcularOrcamento, editarPrestadoresDeServico,  } from "./orcamento.js";
+import { selecionarPrestador, criarPrestadoresDeServico, } from "./orcamento.js";
 const app = express();
 
 app.use(express.json());
@@ -31,18 +31,23 @@ app.get("/listar-servicos", (req: Request, res: Response) => {
 
 
 });
+app.put("/editar-prestador", (req: Request, res: Response) => {
+  const { nomeDoPrestador, novoDadosDoPrestador } = req.body;
+  const editarPrestadorResponse = editarPrestadoresDeServico(nomeDoPrestador as string, novoDadosDoPrestador);
+  res.json(editarPrestadorResponse);
+});
 // rota para apagar servicos
-app.delete("/apagar-servico", (req: Request, res: Response) => {
-  const { nome } = req.query;
+app.delete("/apagar-prestador", (req: Request, res: Response) => {
+  const { nomeDoPrestador } = req.query;
 
 
-  if (nome) {
-    const apagarServicoResponse = apagarServico(nome as string);
+  if (nomeDoPrestador) {
+    const apagarPrestadorResponse = apagarServico(nomeDoPrestador as string);
 
-    res.json(apagarServicoResponse);
+    res.json(apagarPrestadorResponse);
   } else {
     res.json({
-      mensagem: "Nome do serviço é obrigatório para apagar."
+      mensagem: "Nome do prestador é obrigatório para apagar."
     });
   }
 
@@ -71,20 +76,14 @@ app.post("/selecionar-servico", (req: Request, res: Response) => {
 
   const selecionarPrestadorResponse = selecionarPrestador(nomeDePrestador as string);
 
-  res.json({
-    status: selecionarPrestadorResponse,
-
-    mensagem: "prestador de servico com sucisso",
-  });
+  res.json( selecionarPrestadorResponse);
 })
 
-// rota para calcular orcamento
+// rota para criar prestador de serviço
 app.post("/criar-prestador", (req: Request, res: Response) => {
   const novoPrestador = req.body;
 
-
   const criarPrestadorResponse = criarPrestadoresDeServico(novoPrestador);
-
 
   res.json(criarPrestadorResponse);
 })
@@ -100,6 +99,8 @@ app.post("/calcular-orcamento", (req: Request, res: Response) => {
         orcamentoTotal: calcularOrcamentoresponse
     })
 })
+
+
 
 app.listen(8080, () => {
   console.log('Servidor a correr  na porta 8080')

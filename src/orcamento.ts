@@ -56,9 +56,82 @@ export function criarPrestadoresDeServico(novoPrestador: PrestadorType) {
         }
 
     })
+    prestadoresDeServico.push(novoPrestador);
+    return {
+        status: true,
+        mensagem: "Prestador criado com sucesso",
+        data: novoPrestador
+    }
 }
-// Funcao para calcular orcamento
+// Funcao para editar um  prestador de servico
 
+export function editarPrestadoresDeServico(nomeDoPrestador: string, novoDadosDoPrestador: PrestadorType) {
+    // encontrar prestador de servico e adicionar na minha lista
+    //ciclo que percore a lista e verifica o do prestador de servico
+    prestadoresDeServico.map((prestadorExistente: PrestadorType) => {
+        if (prestadorExistente.nome === nomeDoPrestador) {
+            prestadorExistente.nome = novoDadosDoPrestador.nome
+            prestadorExistente.precoHora = novoDadosDoPrestador.precoHora
+            prestadorExistente.propfissao = novoDadosDoPrestador.propfissao
+            prestadorExistente.minimoDesconto = novoDadosDoPrestador.minimoDesconto
+            prestadorExistente.percentagemDesconto = novoDadosDoPrestador.percentagemDesconto
+            prestadorExistente.taxaUrgencia = novoDadosDoPrestador.taxaUrgencia
+
+            return {
+                status: true,
+                mensagem: "Prestador editado com sucesso",
+                data: prestadorExistente
+            }
+        }
+    })
+
+    //se nao exister no prestador com o nome recibido, o retorna uma mensogen de erro 
+
+    return {
+        status: false,
+        mensagem: "Nao existe prestador de servico com esse nome",
+        data: null
+    }
+}
+
+
+//prestadorDeServico.replace()
+
+//funcao para apagar prestador de servico
+export function apagarPrestadorDeServico(nomeDoPrestador: string) {
+    //ciclo para precorer a lista de prestadores
+    //for (let i = 0; i < prestadoresDeServico.length; i++) {
+    //if para vireficar se o nome do prestador  for igual aonome recibido,
+    //if (prestadoresDeServico[i]?.nome === nomeDoPrestador) {
+    //}
+
+    if (!nomeDoPrestador) {
+
+        return {
+            status: false,
+            mensagem: "nome doprestador e obrigatorio",
+            data: null
+        }
+    }
+
+    prestadoresDeServico.filter(
+        (PrestadorExistente: PrestadorType) => PrestadorExistente.nome !== nomeDoPrestador
+    )
+
+    return {
+        status: true,
+        mensagem: "Prestador apagado com sucesso",
+        data: null
+    }
+
+}
+// se encontrado, remove o prestador
+//retornar uma mensagende sucesso
+//se nao exister nenhun prestador com pnome recebido retorna uma mensagem de erro
+
+
+
+// Funcao para calcular orcamento
 export function calcularOrcamento(pedido: PedidoServico) {
     let totalBruto: number = 0;
     let totalFinal: number = 0;
@@ -87,20 +160,20 @@ export function calcularOrcamento(pedido: PedidoServico) {
 
 
 
-    //() => {} --- function
-    //forEach() => {} --- function normal
-    /*
-    
-    urgente: true
-    taxaUrgencia: 0.2
-    totalBruto: 1000
-    totalTaxa: 1000 * 0.2 = 200
-    totalFinal: 1000 + 200 = 1200
-    
-    totalBruto: 1000
-    totalbruto apos urgencia: 1200
-    minimo desconto: 1000
-    percentagem: 0.1
-    desconto sobe total final: 1200 * 0.1 = 120
-    desconto sobre total final: 1200 - 120 = 1080
-    */
+//() => {} --- function
+//forEach() => {} --- function normal
+/*
+ 
+urgente: true
+taxaUrgencia: 0.2
+totalBruto: 1000
+totalTaxa: 1000 * 0.2 = 200
+totalFinal: 1000 + 200 = 1200
+ 
+totalBruto: 1000
+totalbruto apos urgencia: 1200
+minimo desconto: 1000
+percentagem: 0.1
+desconto sobe total final: 1200 * 0.1 = 120
+desconto sobre total final: 1200 - 120 = 1080
+*/
