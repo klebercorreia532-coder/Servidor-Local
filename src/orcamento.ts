@@ -1,7 +1,7 @@
-import { hasSubscribers } from "node:diagnostics_channel";
+
 import { catalogarServicos } from "./servico.js";
 import { type ServicoType, type PedidoServico, type PrestadorType, type prestadoresDeServico } from "./utils/types.js";
-import e from "express";
+
 
 const taxaUrgencia: number = 0.2;
 const mnnimoDesconto: number = 1000;

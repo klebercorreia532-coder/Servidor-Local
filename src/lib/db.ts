@@ -4,7 +4,7 @@ const db = mysql.createPool({
     host: "localhost",
     user: "root",
     password: "Baixadabxd123#",
-    database: "servico_local"
+    database: "servidor_local"
 });
 
 export default db;
