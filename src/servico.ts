@@ -1,4 +1,5 @@
-import {type Responsetype,type ServicoType } from "./utils/types.js";
+import db from "./lib/db.js";
+import { type Responsetype, type ServicoType } from "./utils/types.js";
 export let catalogarServicos: ServicoType[] = [];
 
 
@@ -43,9 +44,9 @@ export function adicionarServico(novoServico: ServicoType): Responsetype {
 }
 // listar todos os serviços
 export function listarServicos(): ServicoType[] {
-//TODO: implementar a fetch listarServicos
+    //TODO: implementar a fetch listarServicos
 
-return catalogarServicos;
+    return catalogarServicos;
 }
 // apagar um serviço
 
@@ -53,18 +54,18 @@ export function apagarServico(nome: string): boolean {
     //TODO: implementar a fetch apagarServico
 
 
-const novoCatalogoTemp: ServicoType[] = [];
+    const novoCatalogoTemp: ServicoType[] = [];
 
-for ( let i = 0; i < catalogarServicos.length; i++) {
-    if (catalogarServicos[i]?.nome !== undefined && catalogarServicos[i]?.nome !== nome ) {
-novoCatalogoTemp.push(catalogarServicos[i]!)
-}
-}
-// devolver um novo catalogo sem o servico que foi apagado
+    for (let i = 0; i < catalogarServicos.length; i++) {
+        if (catalogarServicos[i]?.nome !== undefined && catalogarServicos[i]?.nome !== nome) {
+            novoCatalogoTemp.push(catalogarServicos[i]!)
+        }
+    }
+    // devolver um novo catalogo sem o servico que foi apagado
 
-catalogarServicos = novoCatalogoTemp;
+    catalogarServicos = novoCatalogoTemp;
 
-return true;
+    return true;
 }
 
 // obter um servico pela nome
@@ -77,6 +78,26 @@ export function obterServicoPorNome(nome: string): ServicoType | null {
     return null;
 }
 
+export async function insertServico(servico: any) {
+    console.log( "servico", servico);
+    const { id, nome, categoria, enabled } = servico;
 
+    const query = `
+    INSERT INTO tbl_servico
+    (id, nome, categoria, enabled, created_at, updated_at)
+    VALUES (?, ?, ?, ?, ?, ?)
+    `;
 
+    const values = [
+        id,
+        nome,
+        categoria,
+        enabled,
+        new Date(),
+        new Date()
+    ];
 
+    const [result] = await db.execute(query, values);
+
+    return result;
+}

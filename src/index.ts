@@ -1,8 +1,8 @@
 import express, { type Request, type Response } from "express";
 import { adicionarServico, listarServicos, apagarServico, obterServicoPorNome } from "./servico.js";
-import { calcularOrcamento, editarPrestadoresDeServico,  } from "./orcamento.js";
+import { calcularOrcamento, editarPrestadoresDeServico, } from "./orcamento.js";
 import { selecionarPrestador, criarPrestadoresDeServico, } from "./orcamento.js";
-import { getUserById, getUsers, insertUser } from "./users.js";
+import { getUserById, getUsers, insertUser, insertServico } from "./users.js";
 import { stat } from "node:fs";
 
 const app = express();
@@ -75,11 +75,11 @@ app.get("/obter-servico", (req: Request, res: Response) => {
 
 // rota para selecionar um serviço
 app.post("/selecionar-servico", (req: Request, res: Response) => {
-  const nomeDePrestador  = req.body;
+  const nomeDePrestador = req.body;
 
   const selecionarPrestadorResponse = selecionarPrestador(nomeDePrestador as string);
 
-  res.json( selecionarPrestadorResponse);
+  res.json(selecionarPrestadorResponse);
 })
 
 // rota para criar prestador de serviço
@@ -93,21 +93,21 @@ app.post("/criar-prestador", (req: Request, res: Response) => {
 
 // rota para calcular orcamento
 app.post("/calcular-orcamento", (req: Request, res: Response) => {
-    const { pedido } = req.body 
+  const { pedido } = req.body
 
-    const calcularOrcamentoresponse = calcularOrcamento(pedido)
-    
-    res.json({
-        message: "Orçamento calculado com sucesso!",
-        orcamentoTotal: calcularOrcamentoresponse
-    })
+  const calcularOrcamentoresponse = calcularOrcamento(pedido)
+
+  res.json({
+    message: "Orçamento calculado com sucesso!",
+    orcamentoTotal: calcularOrcamentoresponse
+  })
 })
 
 // rota selecionar todos  os utilizadores presentes na base de dados 
 
 app.get("/get-users", async (req: Request, res: Response) => {
   const getUserResponse = await getUsers()
-  
+
   res.json(getUserResponse);
 });
 
@@ -117,67 +117,79 @@ app.get("/get-user-by-id", async (req: Request, res: Response) => {
 
   if (id) {
     const getUserByIdResponse = await getUserById(id as string)
-    
-    if(!getUserByIdResponse) {
-    res.status(404).json({
-      status:"error",
-      mensagem: "Utilizador não encontrado",
+
+    if (!getUserByIdResponse) {
+      res.status(404).json({
+        status: "error",
+        mensagem: "Utilizador não encontrado",
+        Data: null
+      });
+    }
+
+
+    res.status(200).json({
+      status: "success",
+      mensagem: "Utilizador encontrado",
+      Data: getUserByIdResponse,
+    });
+
+  } else {
+    res.status(400).json({
+      status: "error",
+      mensagem: "ID do utilizador é obrigatório",
       Data: null
     });
   }
-
-
-  res.status(200).json({
-      status:"success",
-      mensagem: "Utilizador encontrado",
-      Data:getUserByIdResponse,
-  });
-
-} else {
-  res.status(400).json({
-    status:"error",
-    mensagem: "ID do utilizador é obrigatório",
-    Data: null
-  }); 
-}
 });
 
-//rota para inserir utilizador
-app.post("/insert-user", async (req: Request, res: Response) => {
+//rota para criar utilizador
+app.post("/create-user", async (req: Request, res: Response) => {
+  const user = req.body;
 
-  const { id, nome, matricula, email, telefone, pais, cidade, senha } = req.body;
 
-  if (!id || !nome || !email) {
-    return res.status(400).json({
+  if (!user) {
+    res.status(400).json({
       status: "error",
       mensagem: "Campos obrigatórios em falta",
       data: null
     });
   }
+  console.log(user);
 
-  const result = await insertUser({
-    id,
-    nome,
-    matricula,
-    email,
-    telefone,
-    pais,
-    cidade,
-    senha
-  });
-
-  return res.status(201).json({
-    status: "success",
-    mensagem: "Utilizador inserido com sucesso",
-    data: result
-  });
+  const insertUserResponse = await insertUser(user);
+  res.json(insertUserResponse);
 
 });
 
 
 
-app.listen(8080, () => {
-  console.log('Servidor a correr  na porta 8080')
-});
+//rota para criar serviço
+app.post("/create-servico", async (req: Request, res: Response) => {
+  
+  const servico = req.body;
+  console.log(servico);
+  // const { id, nome } = servico;
+  
+  // if (!id || !nome) {
+    //   return res.status(400).json({
+      //     status: "error",
+      //     mensagem: "Campos obrigatórios em falta",
+      //     data: null
+      //   });
+      // }
+      
+      const response = await insertServico(servico as any);
+      res.json(response);
 
-// rota selecionar todos  os utilizadores presentes na base de dados 
+      // res.json({
+        //   status: "success",
+        //   mensagem: "Serviço criado com sucesso",
+        //   data: response
+        // });
+        
+      });
+
+      
+      app.listen(8080, () => {
+        console.log('Servidor a correr  na porta 8080')
+      });
