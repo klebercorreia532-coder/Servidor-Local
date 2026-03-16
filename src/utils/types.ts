@@ -54,9 +54,32 @@ export interface UserType {
 export interface UserServiceType {
     id: string;
     nome: string;
-    discricao: string;
+    descricao: string;
     categoria: string;
     enabled: boolean;
     created_at: Date;
     updated_at: Date;
+}
+export interface PrestadorType {
+  id: string
+  nif: number
+  profissao: string
+  taxa_urgencia: number
+  minimo_desconto: number
+  percentagem_desconto: number
+  desponivel: number
+  enabled: number
+  created_at: Date
+  updated_at: Date
+}
+
+export interface PropostaType {
+  id: string
+  id_prestacao_servico: number
+  preco_hora: number
+  hora_estimadas: number
+  estado: "pendente" | "aceito" | "recusado"
+  enabled: number
+  created_at: Date
+  updated_at: Date
 }

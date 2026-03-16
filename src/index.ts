@@ -2,8 +2,11 @@ import express, { type Request, type Response } from "express";
 import { adicionarServico, listarServicos, apagarServico, obterServicoPorNome } from "./servico.js";
 import { calcularOrcamento, editarPrestadoresDeServico, } from "./orcamento.js";
 import { selecionarPrestador, criarPrestadoresDeServico, } from "./orcamento.js";
-import { getUserById, getUsers, insertUser, insertServico } from "./users.js";
+import { getUserById, getUsers, insertUser, insertService } from "./users.js";
 import { stat } from "node:fs";
+import type { UserServiceType } from "./utils/types.js";
+import { insertPrestador } from "./prestador.js";
+import { insertProposta } from "./proposta.js";
 
 const app = express();
 
@@ -163,31 +166,85 @@ app.post("/create-user", async (req: Request, res: Response) => {
 
 
 
-//rota para criar serviço
-app.post("/create-servico", async (req: Request, res: Response) => {
-  
-  const servico = req.body;
-  console.log(servico);
-  // const { id, nome } = servico;
-  
-  // if (!id || !nome) {
-    //   return res.status(400).json({
-      //     status: "error",
-      //     mensagem: "Campos obrigatórios em falta",
-      //     data: null
-      //   });
-      // }
-      
-      const response = await insertServico(servico as any);
-      res.json(response);
 
-      // res.json({
-        //   status: "success",
-        //   mensagem: "Serviço criado com sucesso",
-        //   data: response
-        // });
-        
-      });
+// rota para criar serviço
+app.post("/create-service",  async (req: Request, res: Response) => {
+
+  const service: UserServiceType = req.body;
+  console.log(service);
+  const insertServiceResponse = await insertService(service);
+  res.json(insertServiceResponse);
+
+});
+// Rota para criar prestador
+app.post("/create-prestador", async (req: Request, res: Response) => {
+
+const prestador = req.body
+
+if (!prestador) {
+return res.status(400).json({
+status: "error",
+mensagem: "Dados obrigatórios em falta",
+data: null
+})
+}
+
+try {
+
+const response = await insertPrestador(prestador)
+
+res.status(201).json({
+status: "success",
+mensagem: "Prestador criado com sucesso",
+data: response
+})
+
+} catch (error) {
+
+res.status(500).json({
+status: "error",
+mensagem: "Erro ao criar prestador",
+data: error
+})
+
+}
+
+})
+
+// Rota para criar proposta
+app.post("/create-proposta", async (req: Request, res: Response) => {
+
+const proposta = req.body
+
+if (!proposta) {
+return res.status(400).json({
+status: "error",
+mensagem: "Dados obrigatórios em falta",
+data: null
+})
+}
+
+try {
+
+const response = await insertProposta(proposta)
+
+res.status(201).json({
+status: "success",
+mensagem: "Proposta criada com sucesso",
+data: response
+})
+
+} catch (error) {
+
+res.status(500).json({
+status: "error",
+mensagem: "Erro ao criar proposta",
+data: error
+})
+
+}
+
+})
 
       
       app.listen(8080, () => {

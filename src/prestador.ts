@@ -1,3 +1,6 @@
+import db from "./lib/db.js";
+import type { PrestadorType } from "./utils/types.js";
+
 class Prestador {
     nome: string;
     precoHora: number;
@@ -40,6 +43,46 @@ class Prestador {
         0.1,
         0.2
     );
+
+
+    export async function insertPrestador(prestador: PrestadorType) {
+
+const query = `
+INSERT INTO tbl_prestadores
+(
+id,
+nif,
+profissao,
+taxa_urgencia,
+minimo_desconto,
+percentagem_desconto,
+desponivel,
+enabled,
+created_at,
+updated_at
+)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+`
+
+const values = [
+prestador.id,
+prestador.nif,
+prestador.profissao,
+prestador.taxa_urgencia,
+prestador.minimo_desconto,
+prestador.percentagem_desconto,
+prestador.desponivel,
+prestador.enabled,
+prestador.created_at,
+prestador.updated_at
+]
+
+const [result] = await db.execute(query, values)
+
+
+
+return result
+}
 
 
 

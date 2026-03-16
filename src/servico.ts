@@ -78,26 +78,33 @@ export function obterServicoPorNome(nome: string): ServicoType | null {
     return null;
 }
 
-export async function insertServico(servico: any) {
-    console.log( "servico", servico);
-    const { id, nome, categoria, enabled } = servico;
+export async function insertService(service: any) {
 
-    const query = `
-    INSERT INTO tbl_servico
-    (id, nome, categoria, enabled, created_at, updated_at)
-    VALUES (?, ?, ?, ?, ?, ?)
-    `;
+    const {
+        id,
+        nome,
+        discricao,
+        categoria,
+        enabled
+    } = service;
+
+    const body = `
+INSERT INTO tbl_servicos
+(id, nome, descricao, categoria, enabled, created_at, updated_at)
+VALUES (?, ?, ?, ?, ?, ?, ?)
+`;
 
     const values = [
         id,
         nome,
+        discricao,
         categoria,
         enabled,
         new Date(),
         new Date()
     ];
 
-    const [result] = await db.execute(query, values);
+    const [result] = await db.execute(body, values);
 
     return result;
 }

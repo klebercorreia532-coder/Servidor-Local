@@ -1,4 +1,5 @@
 import db from "./lib/db.js"
+import type { UserServiceType } from "./utils/types.js";
 
 
 export async function getUsers() {
@@ -62,44 +63,26 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     return result;
 }
 
-
-
 export async function getServicos() {
-
     const [rows] = await db.execute("SELECT * FROM tbl_servico")
-
     console.log(rows)
-
     return rows;
 }
-export async function insertServico(servico: any) {
 
-const {
-    id,
-    nome,
-    discricao,
-    categoria,
-    enabled
-} = servico;
-
-const query = `
+export async function insertService(service: UserServiceType) {
+    console.log(service);
+    const [query] = await db.execute(`
 INSERT INTO tbl_servico
-(id, nome, descricao, categoria, enabled, created_at, updated_at)
-VALUES (?, ?, ?, ?, ?, ?, ?)
-`;
+VALUES ( ?, ?, ?, ?,?,?,?)
+`, [
+        service.id ?? null,
+        service.nome,
+        service.descricao,
+        service.categoria,
+        service.enabled,
+        new Date(),
+        new Date()
+    ]);
 
-const values = [
-    id,
-    nome,
-    discricao,
-    categoria,
-    enabled,
-    new Date(),
-    new Date()
-];
-
-const [result] = await db.execute(query, values);
-
-return result;
-
+    return query;
 }
