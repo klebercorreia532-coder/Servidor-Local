@@ -83,3 +83,13 @@ export interface PropostaType {
   created_at: Date
   updated_at: Date
 }
+
+export interface ServicoDBType {
+    id: string;
+    nome: string;
+    descricao: string;
+    categoria: string;
+    enabled: boolean;
+    created_at: Date;
+    updated_at: Date;
+}

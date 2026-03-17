@@ -1,5 +1,6 @@
+import { error } from "node:console";
 import db from "./lib/db.js";
-import { type Responsetype, type ServicoType } from "./utils/types.js";
+import { type Responsetype, type ServicoDBType, type ServicoType } from "./utils/types.js";
 export let catalogarServicos: ServicoType[] = [];
 
 
@@ -107,4 +108,99 @@ VALUES (?, ?, ?, ?, ?, ?, ?)
     const [result] = await db.execute(body, values);
 
     return result;
+}
+
+export async function addServicesToDB(newService: ServicoDBType) {
+    console.log({ newService })
+
+    try {
+        const query = 'INSERT INTO tbl_services VALUES(?,?,?,?,?,?,?)'
+
+        const values =
+
+            [
+                null,
+                newService.nome,
+                newService.descricao,
+                newService.categoria,
+                newService.enabled,
+                new Date(),
+                new Date()
+
+            ]
+        const rows = await db.execute(query, values)
+
+        return rows
+    } catch (error) {
+        console.log(error)
+        return null
+    }
+}
+//criar uma função para obter serviços na base de dados por ID
+export async function getServicesById(id: string) {
+    try {
+        const query = ' SELECT * FROM tbl_services WHERE id = ?'
+
+        const values = [id]
+
+        const rows = await db.execute(query, values)
+
+        return Array.isArray(rows) && rows.length > 0 ? rows[0] : null
+
+    } catch (error) {
+        console.log(error)
+        return null
+    }
+}
+
+export async function getAllServices() {
+    try {
+        const query = 'SELECT * FROM tbl_servico'
+
+        const rows = await db.execute(query)
+
+        return Array.isArray(rows) && rows.length > 0 ? rows[0] : []
+    } catch (error) {
+        console.log(error)
+        return null
+    }
+}
+
+//update de dados
+export async function updateService(id: string, updateService: ServicoDBType) {
+    try {
+        const query = `UPDATE tbl_services
+                            SET
+                                nome=?
+                                descricao=?
+                                categoria=?
+                                enabled=?
+                                update_at=?
+                            WHERE
+                                id=?
+                            ;`
+
+        const values = [
+            updateService.nome,
+            updateService.descricao,
+            updateService.categoria,
+            updateService.enabled,
+            new Date(),
+            id
+        ]
+
+        const rows = await db.execute(query, values)
+        return rows
+
+    } catch (error) {
+        console.log(error)
+        return null
+    }
+}
+export async function deliteService(id: string) {
+    try
+    const query = `DELITE FROM  tbl_servicos WHERE id = ?`
+    const valeu = [id]
+
+
 }
