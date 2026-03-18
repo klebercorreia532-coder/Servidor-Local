@@ -1,88 +1,110 @@
 import db from "./lib/db.js"
-import type { UserServiceType } from "./utils/types.js";
+import type { UserServiceType, UserType } from "./utils/types.js";
+import { generateUUID } from "./utils/uuid.js";
 
 
 export async function getUsers() {
-
-    const [rows] = await db.execute("SELECT * FROM  tbl_utilisadores")
-
-    console.log(rows)
-
+    const rows = await db.execute("SELECT * FROM tbl_utilizadores");
     return rows;
 }
 
 export async function getUserById(id: string) {
-
     const [rows] = await db.execute(
-        "SELECT * FROM  tbl_utilisadores WHERE tbl_utilisadores.id=?",
-
-        [id])
-
+        `SELECT * FROM tbl_utilizadores
+        WHERE tbl_utilizadores.id = ? `,
+        [id]
+    )
 
     if (Array.isArray(rows) && rows.length === 0) return null
-    return Array.isArray(rows) ? rows[0] : null
-}
-export async function insertUser(user: any) {
-
-    const {
-        id,
-        nome,
-        numaro_identificado,
-        data_nascimento,
-        email,
-        telefone,
-        pais,
-        localidade,
-        password,
-        enabled
-    } = user;
-
-    const body = `
-INSERT INTO tbl_utilisadores
-(id, nome, numaro_identificado, data_nascimento, email, telefone, pais, localidade, password, enabled, created_at, updated_at)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-`;
-
-    const values = [
-        id,
-        nome,
-        numaro_identificado,
-        data_nascimento,
-        email,
-        telefone,
-        pais,
-        localidade,
-        password,
-        enabled,
-        new Date(),
-        new Date()
-    ];
-
-    const [result] = await db.execute(body, values);
-
-    return result;
+    return Array.isArray(rows) ? rows[0] : rows
 }
 
-export async function getServicos() {
-    const [rows] = await db.execute("SELECT * FROM tbl_servico")
-    console.log(rows)
+//criar uma função para inserir um utilizador na base de dados
+export async function insertUser(
+user: UserType) {
+    try {
+        
+    console.log(user)
+    const [rows] = await db.execute(
+        `INSERT INTO tbl_utilizadores (id,nome, numero_identificado, data_nascimento, email, telefone,
+        pais, localidade, password , enabled, created_at, update_at) VALUES (?, ?, ?, ?, ?, ?,?,?,?,?,?,?)`,
+        [
+            generateUUID(),
+            user.nome, 
+            user.numero_identificado, 
+            user.data_nascimento, 
+            user.email, 
+            user.telefone, 
+            user.pais, 
+            user.localidade, 
+            user.password, 
+            user.enabled,
+            new Date(),
+            new Date()]
+    );
     return rows;
+    }
+    catch (error) {
+        console.log(error)
+        return null
+    }
+
+}
+export async function updateUser(id: string, updatedUser: UserType) {
+    try {
+        const query = `
+        UPDATE tbl_utilizadores
+        SET
+    nome: = ?,
+    numero_identidade: = ?,
+    data_nascimento: = ?,
+    email: = ?,
+    password: = ?,
+    telefone: = ?,
+    pais: = ?,
+    localidade: = ?,
+    enebled: = ?,
+    update_at: = ?
+        WHERE
+        id=?
+        `;
+
+        const values = [
+            updatedUser.nome,
+            updatedUser.numero_identificado,
+            updatedUser.data_nascimento,
+            updatedUser.email,
+            updatedUser.password,
+            updatedUser.telefone,
+            updatedUser.pais,
+            updatedUser.localidade,
+            updatedUser.enabled,
+            new Date(),
+            id
+        ]
+        const rows = await db.execute(query, values)
+
+        return Array.isArray(rows) && rows.length > 0 ? rows[0] : null;
+
+    } catch (error) {
+        console.log(error);
+        return null
+    }
 }
 
-export async function insertService(service: UserServiceType) {
-    console.log(service);
-    const [query] = await db.execute(`
-INSERT INTO tbl_servico
-VALUES ( ?, ?, ?, ?,?,?,?)
-`, [
-        service.id ?? null,
-        service.nome,
-        service.descricao,
-        service.categoria,
-        service.enabled,
-        new Date(),
-        new Date()
-    ]);
+export async function deleteUser(id: string) {
+    try {
 
-    return query;
+        const query = 'DELETE  FROM tbl_utilizadores WHERE id = ?'
+
+        const values = [id]
+
+        const rows: any = await db.execute(query, values)
+
+        return rows[0]?.affetedRows === 0 ? null : rows
+
+    } catch (error) {
+        console.log(error);
+        return null
+    }
 }

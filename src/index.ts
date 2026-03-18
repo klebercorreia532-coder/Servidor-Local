@@ -1,12 +1,13 @@
 import express, { type Request, type Response } from "express";
-import { adicionarServico, listarServicos, apagarServico, obterServicoPorNome,updateService, deliteService } from "./servico.js";
+import { adicionarServico, listarServicos, apagarServico, obterServicoPorNome,updateService,insertService,deleteService } from "./servico.js";
 import { calcularOrcamento, editarPrestadoresDeServico, } from "./orcamento.js";
 import { selecionarPrestador, criarPrestadoresDeServico, } from "./orcamento.js";
-import { getUserById, getUsers, insertUser, insertService } from "./users.js";
-import type { ServicoDBType, ServicoType, UserServiceType } from "./utils/types.js";
+import { getUserById, getUsers, insertUser} from "./users.js";
+import type { ServicoDBType, UserServiceType } from "./utils/types.js";
 import { insertPrestador, } from "./prestador.js";
 import {insertProposta  } from "./proposta.js";
 import db from "./lib/db.js";
+import { generateUUID } from "./utils/uuid.js";
 
 const app = express();
 
@@ -338,7 +339,7 @@ export async function addServicesToDB(newService: ServicoDBType) {
       [
         null,
         newService.nome,
-        newService.descricao,
+        newService.discricao,
         newService.categoria,
         newService.enabled,
         new Date(),
@@ -384,7 +385,7 @@ export async function getAllServices() {
 }
 app.put("/update-service-id/:id", async (req: Request, res: Response)=>{
     const {id} = req.params
-    const updatedService : ServiceDBType = req.body
+    const updatedService : ServicoDBType = req.body
 
     if(!id){
         return res.status(404).json({
@@ -420,10 +421,9 @@ app.put("/update-service-id/:id", async (req: Request, res: Response)=>{
 })
 
 // rota para apagar um servico pelo id
-app.delete("/delete-service-by-id", async (req: Request, res: Response)=>{
+app.delete("/delete-service-by-id/:id", async (req: Request, res: Response)=>{
 
     const {id} = req.params
-const deleteService: ServicoDBType=req.body
 
     if(!id){
         return res.status(404).json({
@@ -432,14 +432,7 @@ const deleteService: ServicoDBType=req.body
             data: null
         })
     }
-    
-    if(!deleteService){
-        return res.status(400).json({
-            status: "error",
-            message: "Dados de servico invalido",
-            data: null
-        })
-      }
+
     const deleteServiceResponse = await deleteService(id as string)
 
     if(!deleteServiceResponse){
@@ -456,6 +449,7 @@ const deleteService: ServicoDBType=req.body
         data: deleteServiceResponse
     })
 })
+console.log(generateUUID)
 
 app.listen(8080, () => {
   console.log("Server running on port 8080");

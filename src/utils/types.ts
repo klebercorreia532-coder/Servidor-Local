@@ -39,7 +39,7 @@ export interface prestadoresDeServico {
 export interface UserType {
     id: string;
     nome: string;
-    numaro_identificado: string;
+    numero_identificado: string;
     data_nascimento: Date;
     email: string;
     telefone: string;
@@ -61,33 +61,33 @@ export interface UserServiceType {
     updated_at: Date;
 }
 export interface PrestadorType {
-  id: string
-  nif: number
-  profissao: string
-  taxa_urgencia: number
-  minimo_desconto: number
-  percentagem_desconto: number
-  desponivel: number
-  enabled: number
-  created_at: Date
-  updated_at: Date
+    id: string
+    nif: number
+    profissao: string
+    taxa_urgencia: number
+    minimo_desconto: number
+    percentagem_desconto: number
+    desponivel: number
+    enabled: number
+    created_at: Date
+    updated_at: Date
 }
 
 export interface PropostaType {
-  id: string
-  id_prestacao_servico: number
-  preco_hora: number
-  hora_estimadas: number
-  estado: "pendente" | "aceito" | "recusado"
-  enabled: number
-  created_at: Date
-  updated_at: Date
+    id: string
+    id_prestacao_servico: number
+    preco_hora: number
+    hora_estimadas: number
+    estado: "pendente" | "aceito" | "recusado"
+    enabled: number
+    created_at: Date
+    updated_at: Date
 }
 
 export interface ServicoDBType {
     id: string;
     nome: string;
-    descricao: string;
+    discricao: string;
     categoria: string;
     enabled: boolean;
     created_at: Date;
