@@ -300,7 +300,7 @@ app.get("/get-service-by-id", async (req: Request, res: Response) => {
       data: null
     })
   }
-
+  
   res.status(200).json({
     status: "success",
     message: "Servico encontrado",

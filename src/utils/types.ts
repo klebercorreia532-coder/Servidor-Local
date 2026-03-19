@@ -40,7 +40,7 @@ export interface UserType {
     id: string;
     nome: string;
     numero_identificado: string;
-    data_nascimento: Date;
+    data_nascimento: string;
     email: string;
     telefone: string;
     pais: string;
