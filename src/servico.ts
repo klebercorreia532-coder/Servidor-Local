@@ -203,9 +203,9 @@ export async function deleteService (id:string){
 
         const value = [id]
 
-        const rows = await db.execute(query, value) 
+        const rows: any= await db.execute(query, value) 
 
-        return rows
+        return rows[0]?.affectedRows === 0 ? null : rows
         
 
     } catch (error) {
