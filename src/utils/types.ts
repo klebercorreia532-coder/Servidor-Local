@@ -93,3 +93,14 @@ export interface ServicoDBType {
     created_at: Date;
     updated_at: Date;
 }
+
+export interface orcamentoType{
+    id: string;
+   total: number;
+   id_utilizador: string;
+   enabled: string;
+    created_at: Date
+    updated_at: Date
+}
+
+

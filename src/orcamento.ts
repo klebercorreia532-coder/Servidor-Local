@@ -66,8 +66,7 @@ export function criarPrestadoresDeServico(novoPrestador: PrestadorType) {
 // Funcao para editar um  prestador de servico
 
 export function editarPrestadoresDeServico(nomeDoPrestador: string, novoDadosDoPrestador: PrestadorType) {
-    // encontrar prestador de servico e adicionar na minha lista
-    //ciclo que percore a lista e verifica o do prestador de servico
+  
     prestadoresDeServico.map((prestadorExistente: PrestadorType) => {
         if (prestadorExistente.nome === nomeDoPrestador) {
             prestadorExistente.nome = novoDadosDoPrestador.nome
@@ -95,15 +94,10 @@ export function editarPrestadoresDeServico(nomeDoPrestador: string, novoDadosDoP
 }
 
 
-//prestadorDeServico.replace()
 
 //funcao para apagar prestador de servico
 export function apagarPrestadorDeServico(nomeDoPrestador: string) {
-    //ciclo para precorer a lista de prestadores
-    //for (let i = 0; i < prestadoresDeServico.length; i++) {
-    //if para vireficar se o nome do prestador  for igual aonome recibido,
-    //if (prestadoresDeServico[i]?.nome === nomeDoPrestador) {
-    //}
+    
 
     if (!nomeDoPrestador) {
 
@@ -125,10 +119,6 @@ export function apagarPrestadorDeServico(nomeDoPrestador: string) {
     }
 
 }
-// se encontrado, remove o prestador
-//retornar uma mensagende sucesso
-//se nao exister nenhun prestador com pnome recebido retorna uma mensagem de erro
-
 
 
 // Funcao para calcular orcamento

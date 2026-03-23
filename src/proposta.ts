@@ -3,7 +3,9 @@ import type { PropostaType } from "./utils/types.js"
 
 export async function insertProposta(proposta: PropostaType) {
 
-const query = `
+
+    try {
+        const query = `
 INSERT INTO tbl_propostas
 (
 id_prestacao_servico,
@@ -17,17 +19,23 @@ updated_at
 VALUES (?, ?, ?, ?, ?, ?, ?)
 `
 
-const values = [
-proposta.id_prestacao_servico,
-proposta.preco_hora,
-proposta.hora_estimadas,
-proposta.estado,
-proposta.enabled,
-proposta.created_at,
-proposta.updated_at
-]
+        const values = [
+            proposta.id_prestacao_servico,
+            proposta.preco_hora,
+            proposta.hora_estimadas,
+            proposta.estado,
+            proposta.enabled,
+            proposta.created_at,
+            proposta.updated_at
+        ]
 
-const [result] = await db.execute(query, values)
+        const [result] = await db.execute(query, values)
 
-return result
+
+        return result
+    } catch (error) {
+        console.log(error)
+        return null
+    }
 }
+
