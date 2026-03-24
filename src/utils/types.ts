@@ -73,7 +73,7 @@ export interface PrestadorType {
     updated_at: Date
 }
 
-export interface PropostaType {
+export interface  PropostaDBType {
     id: string
     id_prestacao_servico: number
     preco_hora: number
@@ -94,11 +94,11 @@ export interface ServicoDBType {
     updated_at: Date;
 }
 
-export interface orcamentoType{
+export interface OrcamentoDBType {
     id: string;
-   total: number;
-   id_utilizador: string;
-   enabled: string;
+    total: number;
+    id_utilizador: string;
+    enabled: string;
     created_at: Date
     updated_at: Date
 }

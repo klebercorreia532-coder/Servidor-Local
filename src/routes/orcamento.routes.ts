@@ -1,16 +1,20 @@
-import { Router } from "express";
-import {
-    handleSelecionarServico,
-    handleSelecionarPrestador,
-    handleCriarPrestador,
-    handleCalcularOrcamento
-} from "./orcamento.controller.js";
+import { Router } from "express"
+import { OrcamentoController } from "../controllers/orcamento.controller.js"
 
-const router = Router();
+const OrcamentoRoute = {
+    create: "/create",
+    getAll: "/",
+    getById: "/get-by-id/:id",
+    update: "/update/:id",
+    delete: "/delete/:id"
+}
 
-router.post("/orcamento/servico", handleSelecionarServico);
-router.post("/orcamento/prestador", handleSelecionarPrestador);
-router.post("/orcamento/prestador/create", handleCriarPrestador);
-router.post("/orcamento/calcular", handleCalcularOrcamento);
+const router = Router()
 
-export default router;
+router.post(OrcamentoRoute.create, OrcamentoController.create)
+router.get(OrcamentoRoute.getAll, OrcamentoController.getAll)
+router.get(OrcamentoRoute.getById, OrcamentoController.get)
+router.put(OrcamentoRoute.update, OrcamentoController.update)
+router.delete(OrcamentoRoute.delete, OrcamentoController.delete)
+
+export { router }

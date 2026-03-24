@@ -1,20 +1,20 @@
-import { Router } from "express";
-import { servicoController } from "../controllers/servico.controllers.js";
+import { Router } from "express"
+import { ServicoController } from "../controllers/servico.controller.js"
 
 const ServiceRoute = {
     create: "/create",
-    getById: "/get-by-id",
+    getById: "/get-by-id/:id",
     getAll: "/",
     update: "/update/:id",
     delete: "/delete/:id"
 }
 
- const router = Router()
-router.get(ServiceRoute.getAll, servicoController.getAll)
-router.get(ServiceRoute.getById, servicoController.get)
-router.post(ServiceRoute.create, servicoController.create)
-router.put(ServiceRoute.update, servicoController.update)
-router.delete(ServiceRoute.delete, servicoController.delete)
+const router = Router()
+ 
+router.post(ServiceRoute.create, ServicoController.createServico)
+router.get(ServiceRoute.getAll, ServicoController.getAll)
+router.get(ServiceRoute.getById, ServicoController.get)
+router.put(ServiceRoute.update, ServicoController.update)
+router.delete(ServiceRoute.delete, ServicoController.delete)
 
-
-export  { router }
+export { router }

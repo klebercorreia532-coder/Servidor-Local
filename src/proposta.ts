@@ -1,7 +1,8 @@
 import db from "./lib/db.js";
-import type { PropostaType } from "./utils/types.js"
+import type { PropostaDBType } from "./utils/types.js";
 
-export async function insertProposta(proposta: PropostaType) {
+
+export async function insertProposta(proposta: PropostaDBType ) {
 
 
     try {

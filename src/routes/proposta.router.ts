@@ -1,20 +1,13 @@
-import { Router } from "express";
 
-import { propostaController } from "../controllers/proposta.controller.js";
+import { Router } from "express"
+import { PropostaController } from "../controllers/proposta.controller.js"
 
+const router = Router()
 
-const PropostaRoute = {
-    create: "/create",
-    getById: "/get-by-id",
-    getAll: "/",
-    update: "/update/:id",
-    delete: "/delete/:id"
-}
+router.post("/", PropostaController.create)
+router.get("/", PropostaController.getAll)
+router.get("/:id", PropostaController.get)
+router.put("/:id", PropostaController.update)
+router.delete("/:id", PropostaController.delete)
 
-
-const router = Router();
-
-// POST /propostas
-router.post(PropostaRoute.create, propostaController.create );
-
-export default router;
+export { router }

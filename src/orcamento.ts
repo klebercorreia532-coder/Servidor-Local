@@ -1,4 +1,5 @@
 
+import db from "./lib/db.js";
 import { catalogarServicos } from "./servico.js";
 import { type ServicoType, type PedidoServico, type PrestadorType, type prestadoresDeServico } from "./utils/types.js";
 
@@ -11,6 +12,18 @@ const percentagemDesconto: number = 0.1;
 const servicosSelecionadas: ServicoType[] = [];
 const prestadoresDeServico: PrestadorType[] = [];
 const prestadoresSelecionados: PrestadorType[] = [];
+ 
+
+export async function getOrcamento() {
+    const rows = await db.execute("SELECT * FROM tbl_orcamentos");
+    return rows;
+}
+
+export async function getOrcamentoById(id: string) {
+    const rows = await db.execute("SELECT * FROM tbl_orcamentos WHERE id = ?", [id]);
+    return rows;
+}
+
 
 // Funcao para selecionar servico e horaEstimada
 export function selecionarServico(nome: string) {
