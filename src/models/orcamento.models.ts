@@ -15,7 +15,7 @@ export const OrcamentoModel = {
                 [
                     generateUUID(),
                     orcamento.total,
-                    orcamento.id_utilizadores,
+                    orcamento.id_utilizador,
                     orcamento.enabled,
                     new Date(),
                     new Date()
@@ -64,7 +64,7 @@ export const OrcamentoModel = {
 
                 [
                     orcamento.total,
-                    orcamento.id_utilizadores,
+                    orcamento.id_utilizador,
                     orcamento.enabled,
                     new Date(),
                     id

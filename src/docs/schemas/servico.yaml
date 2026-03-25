@@ -1,0 +1,39 @@
+# schema/servico.yaml
+
+
+components:
+  schemas:
+    servico:
+      type: object
+      properties: 
+        id:
+          type: inteder
+          example: 1
+        nome:
+          type: string
+          example: sevico de limpeza
+        descricao:
+          type: string
+          example: "servico de limpeza profissional para resistencia e "
+        categoria:
+          type: string
+          example: limpeza
+        enabled:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          example: "2022-02-02T00:00:00.000Z"
+   # schema generico de erro
+
+responseErro:
+type: objetct
+properties:
+message:
+type: string
+example: false
+data:
+type: object
+properties:
+null
+

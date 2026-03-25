@@ -12,7 +12,8 @@ const percentagemDesconto: number = 0.1;
 const servicosSelecionadas: ServicoType[] = [];
 const prestadoresDeServico: PrestadorType[] = [];
 const prestadoresSelecionados: PrestadorType[] = [];
- 
+
+
 
 export async function getOrcamento() {
     const rows = await db.execute("SELECT * FROM tbl_orcamentos");
@@ -79,7 +80,7 @@ export function criarPrestadoresDeServico(novoPrestador: PrestadorType) {
 // Funcao para editar um  prestador de servico
 
 export function editarPrestadoresDeServico(nomeDoPrestador: string, novoDadosDoPrestador: PrestadorType) {
-  
+
     prestadoresDeServico.map((prestadorExistente: PrestadorType) => {
         if (prestadorExistente.nome === nomeDoPrestador) {
             prestadorExistente.nome = novoDadosDoPrestador.nome
@@ -110,7 +111,7 @@ export function editarPrestadoresDeServico(nomeDoPrestador: string, novoDadosDoP
 
 //funcao para apagar prestador de servico
 export function apagarPrestadorDeServico(nomeDoPrestador: string) {
-    
+
 
     if (!nomeDoPrestador) {
 

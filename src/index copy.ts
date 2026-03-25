@@ -1,9 +1,11 @@
+/*
+
 import express, { type Request, type Response } from "express";
 import { adicionarServico, listarServicos, apagarServico, obterServicoPorNome, updateService, insertService, deleteService } from "./servico.js";
 import { calcularOrcamento, editarPrestadoresDeServico, } from "./orcamento.js";
 import { selecionarPrestador, criarPrestadoresDeServico, } from "./orcamento.js";
 import { getUserById, getUsers, insertUser } from "./users.js";
-import type { ServicoDBType, UserServiceType } from "./utils/types.js";
+import type { PrestadorDBType, ServicoDBType, UserServiceType } from "./utils/types.js";
 import { insertPrestador, } from "./prestador.js";
 import { insertProposta } from "./proposta.js";
 import db from "./lib/db.js";
@@ -315,6 +317,7 @@ app.get("/get-prestador-by-id", async (req: Request, res: Response) => {
     });
   }
 });
+  // Rota para buscar todos os prestadores
 app.get("/get-all-prestadores", async (req: Request, res: Response) => {
   const getAllPrestadoresResponse = await getAllPrestadores()
   if (!getAllPrestadoresResponse) {
@@ -330,7 +333,7 @@ app.get("/get-all-prestadores", async (req: Request, res: Response) => {
     data: getAllPrestadoresResponse
   })
 })
-
+  // Rota para buscar dados do prestadores
 app.get("/update-prestador-by-id/:id", async (req: Request, res: Response) => {
     const { id } = req.params
     const updatedPrestador: PrestadorDBType = req.body
@@ -350,7 +353,7 @@ app.get("/update-prestador-by-id/:id", async (req: Request, res: Response) => {
   })
   }
 
-  const updatePrestadorResponse = await updatePrestador(id as string, updatedPrestador)
+  const updatePrestadorResponse = await updatedPrestador(id as string, updatedPrestador)
 
   if (!updatePrestadorResponse) {
   return res.status(400).json({
@@ -727,3 +730,7 @@ console.log(generateUUID)
 app.listen(8080, () => {
   console.log("Server running on port 8080");
 });
+
+
+
+*/

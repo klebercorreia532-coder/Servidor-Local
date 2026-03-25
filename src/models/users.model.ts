@@ -36,13 +36,13 @@ export const UserModel = {
             return null
         }
     },
-// tosdos os user
+    // tosdos os user
     async getAll() {
         const [rows] = await db.execute("SELECT * FROM tbl_utilizadores")
 
         return rows
     },
- 
+
     async get(id: string) {
         try {
             const [rows] = await db.execute(

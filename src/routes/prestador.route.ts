@@ -16,5 +16,9 @@ const router = Router()
 
 router.post(pretadorRoute.create, prestadorController.create)
 router.get(pretadorRoute.getAll, prestadorController.getAll)
+router.get(pretadorRoute.getById, prestadorController.getById)
+router.put(pretadorRoute.update, prestadorController.update)
+router.delete(pretadorRoute.delete, prestadorController.delete)
+
 
 export { router }

@@ -1,5 +1,5 @@
 import { create } from "node:domain";
-import { serviceModel } from "../models/servico.models.js";
+import { ServiceModel as serviceModel} from "../models/servico.models.js";
 import type { ServicoDBType } from "../utils/types.js";
 import type { Request, Response } from "express";
 

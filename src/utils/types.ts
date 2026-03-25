@@ -60,7 +60,7 @@ export interface UserServiceType {
     created_at: Date;
     updated_at: Date;
 }
-export interface PrestadorType {
+export interface PrestadorDBType {
     id: string
     nif: number
     profissao: string
