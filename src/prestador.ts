@@ -1,41 +1,34 @@
 import db from "./lib/db.js";
 import type { PrestadorType } from "./utils/types.js";
 
-class Prestador {
-    nome: string;
-    precoHora: number;
-    propfissao: string;
-    minimoDesconto: number;
-    percentagemDesconto: number;
-    taxaUrgencia: number;
+export async function insertPrestador(prestador: PrestadorType) {
+    const {
+        nome,
+        precoHora,
+        propfissao,
+        minimoDesconto,
+        percentagemDesconto,
+        taxaUrgencia
+    } = prestador;
 
-    constructor(
-        nomeDoPrestador: string,
-        precoHoraDoPrestador: number,
-        propfissaoDoPrestador: string,
-        minimoDescontoDoPrestador: number,
-        percentagemDescontoDoPrestador: number,
-        taxaUrgenciaDoPrestador: number
-    ) {
-        this.nome = nomeDoPrestador;
-        this.precoHora = precoHoraDoPrestador;
-        this.propfissao = propfissaoDoPrestador;
-        this.minimoDesconto = minimoDescontoDoPrestador;
-        this.percentagemDesconto = percentagemDescontoDoPrestador;
-        this.taxaUrgencia = taxaUrgenciaDoPrestador;
+    const sql = `
+    INSERT INTO prestadores
+    (nome, preco_hora, profissao, minimo_desconto, percentagem_desconto, taxa_urgencia)
+    VALUES (?, ?, ?, ?, ?, ?)`;
 
+    const values = [
+        nome,
+        precoHora,
+        propfissao,
+        minimoDesconto,
+        percentagemDesconto,
+        taxaUrgencia
+    ];
 
-    }
-    alterarPrecoHora(novoPrecoHora: number) {
-        this.precoHora = novoPrecoHora;
-    }
+    const [result] = await db.execute(sql, values);
 
-    alterarNome(novoNome: string) {
-        this.nome = novoNome;
-    }
+    return result;
 }
-
-
 /*
 nome: "Kleber",
 precoHora: 100,

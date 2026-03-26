@@ -1,7 +1,6 @@
 
 import { Router } from "express"
 import { PropostaController } from "../controllers/proposta.controller.js"
-
 const router = Router()
 
 router.post("/", PropostaController.create)

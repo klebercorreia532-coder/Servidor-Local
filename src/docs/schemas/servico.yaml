@@ -1,20 +1,20 @@
 # schema/servico.yaml
 
-
 components:
   schemas:
+
     servico:
       type: object
-      properties: 
+      properties:
         id:
-          type: inteder
+          type: integer
           example: 1
         nome:
           type: string
-          example: sevico de limpeza
+          example: Serviço de limpeza
         descricao:
           type: string
-          example: "servico de limpeza profissional para resistencia e "
+          example: Serviço de limpeza profissional para residências
         categoria:
           type: string
           example: limpeza
@@ -23,17 +23,54 @@ components:
           example: true
         created_at:
           type: string
+          format: date-time
           example: "2022-02-02T00:00:00.000Z"
-   # schema generico de erro
 
-responseErro:
-type: objetct
-properties:
-message:
-type: string
-example: false
-data:
-type: object
-properties:
-null
+    # schema para criar um novo serviço
+    CreateService:
+      type: object
+      properties:
+        nome:
+          type: string
+          example: Serviço de limpeza
+        descricao:
+          type: string
+          example: Serviço de limpeza profissional para residências e empresas
+        categoria:
+          type: string
+          example: limpeza
+        enabled:
+          type: boolean
+          example: true
+      required:
+        - nome
+        - descricao
+        - categoria
+        - enabled
 
+    # schema genérico para sucesso
+    responseSucesso:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Serviço criado com sucesso
+        status:
+          type: boolean
+          example: true
+        data:
+          $ref: "#/components/schemas/servico"
+
+    # schema genérico de erro
+    responseErro:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Erro ao processar a requisição
+        status:
+          type: boolean
+          example: false
+        data:
+          type: object
+          nullable: true

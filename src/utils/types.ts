@@ -102,5 +102,18 @@ export interface OrcamentoDBType {
     created_at: Date
     updated_at: Date
 }
-
+export interface PrestacaoServicoDBType {
+    id: string,
+    designacao: string,
+    subtotal: number,
+    horas_estimadas: number,
+    id_prestador: string,
+    id_servico: string,
+    preco_hora: number,
+    estado: string,
+    id_orcamento: string,
+    enabled: boolean,
+    created_at: string,
+    updated_at: string
+}
 

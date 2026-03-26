@@ -1,37 +1,160 @@
 # paths/servico.yaml
 
-
 paths:
   /servicos:
     get:
-summay: listar todos os servicos
-description: Retorna um listar todos os servicos desponivel
-responses:
-  200:
-    description: lista de servico
-    content:
-      application/json:
-        schema:
-          type: array
-          items:
-            $ref: '#/components/schemas/servico'
+      summary: Listar todos os serviços
+      description: Retorna a lista de todos os serviços disponíveis
+      responses:
+        "200":
+          description: Lista de serviços
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/servico"
 
-"404"
-descrition: servico nao encontrado
-content:
-  application/json:
-    schema:
-type: object
-      $ref: '#/components/schemas/responseErro'
+        "404":
+          description: Serviço não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"
 
-
-/service/create:  
+  /service/create:
     post:
       summary: Criar um novo serviço
-      derscription: Criar um novo d«servico
+      description: Criar um novo serviço
       requestBody:
         required: true
         content:
           application/json:
+            schema:
+              $ref: "#/components/schemas/CreateService"
+      responses:
+        "200":
+          description: Serviço criado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/responseSucesso"
+
+        "400":
+          description: dados invalidos
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/responseErro"
+
+  /service/get-by-id/{id}:
+    get:
+      summary: Buscar um serviço por ID
+      description: Retorna um serviço específico pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do serviço
           schema:
-          type: object
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: Serviço encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/servico"
+
+        "404":
+          description: Serviço não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"
+
+  /service/update/{id}:
+    put:
+      summary: Atualizar um serviço
+      description: Atualiza um serviço existente pelo ID
+      parameters:
+        - nome: id
+          in: path
+          required: true
+          description: ID do serviço a ser atualizado
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+            type: object
+            $ref: "#/components/schemas/createService"
+      responses:
+        "200":
+          description: atualizados com sucesso
+          content: 
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/servico"
+            
+        "400":
+          description: Dados invalidos
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/servico"
+
+        "404":
+          description: Serviço não encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/responseErro"
+  /service/delete/{id}:
+    delete:
+      summary: Deletar um serviço
+      description: Deleta um serviço expicifico pelo ID
+      parameters:
+        - nome: id
+          in: path
+          required: true
+          description: ID do serviço a ser deletado
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: Serviço deletado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/responseSucesso"
+        "404":
+          description: Serviço não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"
+
+
+
+
+
+
+
+
+
+      #         $ref: "#/components/schemas/servico"
+      # responses:
+      #   "200":
+      #     description: Serviço atualizado com sucesso
