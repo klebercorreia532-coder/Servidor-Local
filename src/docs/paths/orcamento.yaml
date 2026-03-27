@@ -1,0 +1,155 @@
+# paths/orcomento.yaml
+
+paths:
+/orcamentos:
+  get:
+    summary: Listar todos os orcamentos
+    description: Retorna a lista de todos os orcamentos disponíveis
+    responses:
+      "200":
+        description: Lista de orcamentos
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/orcamento"  
+
+"404":
+  description: Orcamento não encontrado
+  content:
+    application/json:
+      schema:
+        $ref: "#/components/schemas/responseErro"
+
+/orcamento/create:
+  post:
+    summary: Criar um novo orcamento
+    description: Criar um novo orcamento
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CreateOrcamento"
+    responses:
+      "200":
+        description: Orcamento criado com sucesso
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/responseSucesso"
+
+"400":
+  description: dados invalidos
+  content:
+    application/json:
+      schema:
+        type: object
+        $ref: "#/components/schemas/responseErro"
+
+/orcamento/get-by-id/{id}:
+  get:
+    summary: Buscar um orcamento por ID
+    description: Retorna um orcamento específico pelo ID
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID do orcamento
+        schema:
+          type: integer
+          example: 1
+    responses:
+      "200":
+        description: Orcamento encontrado
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/orcamento"
+
+      "404":
+        description: Orcamento não encontrado
+        content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"
+/orcamento/update/{id}:
+  put:
+    summary: Atualizar um orcamento
+    description: Atualiza um orcamento existente pelo ID
+    parameters:
+      - nome: id
+        in: path
+        required: true
+        description: ID do orcamento a ser atualizado
+        schema:
+          type: integer
+          example: 1
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+          type: object
+          $ref: "#/components/schemas/CreateOrcamento"
+    responses:
+      "200":
+        description: atualizados com sucesso
+        content: 
+          application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/orcamento"
+
+      "400":
+        description: Dados invalidos
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/orcamento"
+
+      "404":
+        description: Orcamento não encontrado
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/responseErro"
+  /orcamento/delete/{id}:
+    delete:
+      summary: Deletar um orcamento
+      description: Deleta um orcamento expicifico pelo ID 
+      parameters:
+        - nome: id
+          in: path
+          required: true
+          description: ID do orcamento a ser deletado
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: Orcamento deletado com sucesso 
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/responseSucesso"
+        "404":
+          description: Orcamento não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"
+            
+            
+            
+
+  
+      
+      
+
+

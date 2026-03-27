@@ -1,0 +1,109 @@
+# schema/user.yaml
+
+components:
+  schemas:
+    user:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 4bb7ab97-8c95-4c85-9571-193e7efdc359
+        nome:
+          type: string
+          example: Kleber Veiga
+        numero_identificado:
+          type: string
+          example: M002Y
+        data_nascimento:
+          type: string
+          example: l1997-10-31
+        email:
+          type: string
+          example: Klebercorreia532@gmail.com
+        telefone:
+          type: string
+          example: 5863452
+        pais:
+          type: string
+          example: Cv
+        localidade:
+          type: string
+          example: Praia
+        password:
+          type: string
+          example: Baixadabxd123#
+        enabled:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: "2026-03-13 10:03:34"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2026-03-13 10:03:34"
+
+    # schema para criar um novo Utilizador
+    Createuser:
+      type: object
+      properties:
+        nome:
+          type: string
+          example: Kleber Veiga
+        numero_identificado:
+          type: string
+          example: M002Y
+        data_nascimento:
+          type: string
+          example: l1997-10-31
+        email:
+          type: string
+          example: Klebercorreia532@gmail.com
+        telefone:
+          type: string
+          example: 5863452
+        pais:
+          type: string
+          example: Cv
+        localidade:
+          type: string
+          example: Praia
+        password:
+          type: string
+          example: Baixadabxd123#
+        enabled:
+          type: boolean
+          example: true
+      required:
+        - nome
+        - descricao
+        - categoria
+        - enabled
+
+    # schema genérico para sucesso
+    responseSucesso:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Utilizador criado com sucesso
+        status:
+          type: boolean
+          example: true
+        data:
+          $ref: "#/components/schemas/user"
+
+    # schema genérico de erro
+    responseErro:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Erro ao processar a requisição
+        status:
+          type: boolean
+          example: false
+        data:
+          type: object
+          null: true
