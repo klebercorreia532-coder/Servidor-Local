@@ -2,12 +2,13 @@
 
 components:
   schemas:
+
     user:
       type: object
       properties:
         id:
-          type: integer
-          example: 4bb7ab97-8c95-4c85-9571-193e7efdc359
+          type: string
+          example: "4bb7ab97-8c95-4c85-9571-193e7efdc359"
         nome:
           type: string
           example: Kleber Veiga
@@ -16,36 +17,38 @@ components:
           example: M002Y
         data_nascimento:
           type: string
-          example: l1997-10-31
+          format: date
+          example: "1997-10-31"
         email:
           type: string
-          example: Klebercorreia532@gmail.com
+          format: email
+          example: klebercorreia532@gmail.com
         telefone:
           type: string
-          example: 5863452
+          example: "5863452"
         pais:
           type: string
-          example: Cv
+          example: CV
         localidade:
           type: string
           example: Praia
         password:
           type: string
-          example: Baixadabxd123#
+          example: "********"
         enabled:
           type: boolean
           example: true
         created_at:
           type: string
           format: date-time
-          example: "2026-03-13 10:03:34"
+          example: "2026-03-13T10:03:34.000Z"
         updated_at:
           type: string
           format: date-time
-          example: "2026-03-13 10:03:34"
+          example: "2026-03-13T10:03:34.000Z"
 
-    # schema para criar um novo Utilizador
-    Createuser:
+    # schema para criar um novo utilizador
+    CreateUser:
       type: object
       properties:
         nome:
@@ -56,33 +59,37 @@ components:
           example: M002Y
         data_nascimento:
           type: string
-          example: l1997-10-31
+          format: date
+          example: "1997-10-31"
         email:
           type: string
-          example: Klebercorreia532@gmail.com
+          format: email
+          example: klebercorreia532@gmail.com
         telefone:
           type: string
-          example: 5863452
+          example: "5863452"
         pais:
           type: string
-          example: Cv
+          example: CV
         localidade:
           type: string
           example: Praia
         password:
           type: string
-          example: Baixadabxd123#
+          example: "Baixadabxd123#"
         enabled:
           type: boolean
           example: true
       required:
         - nome
-        - descricao
-        - categoria
+        - numero_identificado
+        - data_nascimento
+        - email
+        - password
         - enabled
 
     # schema genérico para sucesso
-    responseSucesso:
+    userResponseSucesso:
       type: object
       properties:
         message:
@@ -95,7 +102,7 @@ components:
           $ref: "#/components/schemas/user"
 
     # schema genérico de erro
-    responseErro:
+    userResponseErro:
       type: object
       properties:
         message:

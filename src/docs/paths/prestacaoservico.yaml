@@ -1,0 +1,142 @@
+# paths/prestacaoservico.yaml
+
+paths:
+  /prestacaoservico:
+    get:
+      summary: Listar todas as prestações
+      tags:
+        - Prestações de Serviços
+      responses:
+        "200":
+          description: Lista de prestações
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/prestacaoServico"
+
+        "404":
+          description: Nenhuma prestação encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"
+
+  /prestacaoservico/create:
+    post:
+      summary: Criar prestação
+      tags:
+        - Prestações de Serviços
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatePrestacaoServico"
+      responses:
+        "200":
+          description: Criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseSucessoPrestacao"
+
+        "400":
+          description: Dados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"
+
+  /prestacaoservico/get-by-id/{id}:
+    get:
+      summary: Buscar prestação por ID
+      tags:
+        - Prestações de Serviços  
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "a12b34c5-d678-90ef-gh12-345ijk678lmn"
+      responses:
+        "200":
+          description: Prestação encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/prestacaoServico"
+
+        "404":
+          description: Não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"
+
+  /prestacaoservico/update/{id}:
+    put:
+      summary: Atualizar prestação
+      tags:
+        - Prestações de Serviços
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatePrestacaoServico"
+      responses:
+        "200":
+          description: Atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/prestacaoServico"
+
+        "400":
+          description: Dados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"
+
+        "404":
+          description: Não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"
+
+  /prestacaoservico/delete/{id}:
+    delete:
+      summary: Deletar prestação
+      tags:
+        - Prestações de Serviços  
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Deletado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseSucessoPrestacao"
+
+        "404":
+          description: Não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"

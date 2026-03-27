@@ -1,0 +1,130 @@
+# schema/prestacaoservico.yaml
+
+components:
+  schemas:
+
+    prestacaoServico:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "a12b34c5-d678-90ef-gh12-345ijk678lmn"
+
+        designacao:
+          type: string
+          example: Montagem de portão
+
+        subtotal:
+          type: number
+          example: 500.00
+
+        horas_estimadas:
+          type: number
+          example: 10
+
+        id_prestador:
+          type: string
+          example: "user-uuid-123"
+
+        id_servico:
+          type: string
+          example: "servico-uuid-456"
+
+        preco_hora:
+          type: number
+          example: 50.00
+
+        estado:
+          type: string
+          example: pendente
+
+        id_orcamento:
+          type: string
+          example: "orcamento-uuid-789"
+
+        enabled:
+          type: boolean
+          example: true
+
+        created_at:
+          type: string
+          format: date-time
+          example: "2026-03-13T10:03:34.000Z"
+
+        updated_at:
+          type: string
+          format: date-time
+          example: "2026-03-13T10:03:34.000Z"
+
+    # schema para criar uma nova prestação de serviço
+    CreatePrestacaoServico:
+      type: object
+      properties:
+        designacao:
+          type: string
+          example: Montagem de portão
+
+        horas_estimadas:
+          type: number
+          example: 10
+
+        preco_hora:
+          type: number
+          example: 50.00
+
+        id_prestador:
+          type: string
+          example: "user-uuid-123"
+
+        id_servico:
+          type: string
+          example: "servico-uuid-456"
+
+        id_orcamento:
+          type: string
+          example: "orcamento-uuid-789"
+
+        estado:
+          type: string
+          example: pendente
+
+        enabled:
+          type: boolean
+          example: true
+
+      required:
+        - designacao
+        - horas_estimadas
+        - preco_hora
+        - id_prestador
+        - id_servico
+        - id_orcamento
+        - estado
+        - enabled
+
+    # schema genérico para sucesso
+    prestacaoServicoResponseSucesso:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Prestação criada com sucesso
+        status:
+          type: boolean
+          example: true
+        data:
+          $ref: "#/components/schemas/prestacaoServico"
+
+    # schema genérico de erro 
+    prestacaoServicoResponseErro:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Erro ao processar a requisição
+        status:
+          type: boolean
+          example: false
+        data:
+          type: object
+          null: true

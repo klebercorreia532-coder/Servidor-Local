@@ -1,0 +1,87 @@
+# schema/proposta.yaml
+
+components:
+  schemas:
+
+    proposta:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "prop-uuid-123abc"
+        id_prestacao_servico:
+          type: number
+          example: 12
+        preco_hora:
+          type: number
+          example: 50.00
+        hora_estimadas:
+          type: number
+          example: 10
+        estado:
+          type: string
+          example: "pendente"
+        enabled:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: "2026-03-27T12:00:00.000Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2026-03-27T12:00:00.000Z"
+
+    # schema para criar uma nova proposta
+    CreateProposta:
+      type: object
+      properties:
+        id_prestacao_servico:
+          type: number
+          example: 12
+        preco_hora:
+          type: number
+          example: 50.00
+        hora_estimadas:
+          type: number
+          example: 10
+        estado:
+          type: string
+          example: "pendente"
+        enabled:
+          type: boolean
+          example: true
+      required:
+        - id_prestacao_servico
+        - preco_hora
+        - hora_estimadas
+        - estado
+        - enabled
+
+    # schema genérico para sucesso
+    propostaResponseSucesso:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Proposta criada com sucesso
+        status:
+          type: boolean
+          example: true
+        data:
+          $ref: "#/components/schemas/proposta"
+
+    # schema genérico de erro
+    propostaResponseErro:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Erro ao processar a requisição
+        status:
+          type: boolean
+          example: false
+        data:
+          type: object
+          null: true

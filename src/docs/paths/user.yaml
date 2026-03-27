@@ -3,11 +3,13 @@
 paths:
   /users:
     get:
-      summary: Listar todos os use
-      description: Retorna a lista de todos os use disponíveis
+      summary: Listar todos os usuários
+      tags:
+        - Usuários  
+      description: Retorna a lista de todos os usuários disponíveis
       responses:
         "200":
-          description: Lista de use
+          description: Lista de usuários
           content:
             application/json:
               schema:
@@ -16,7 +18,7 @@ paths:
                   $ref: "#/components/schemas/user"
 
         "404":
-          description: user não encontrado
+          description: Usuário não encontrado
           content:
             application/json:
               schema:
@@ -24,53 +26,55 @@ paths:
 
   /user/create:
     post:
-      summary: Criar um novo user
-      description: Criar um novo user
+      summary: Criar um novo usuário
+      tags:
+        - Usuários
+      description: Criar um novo usuário
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Createuser"
+              $ref: "#/components/schemas/CreateUser"
       responses:
         "200":
-          description: user criado com sucesso
+          description: Usuário criado com sucesso
           content:
             application/json:
               schema:
-                type: object
-                $ref: "#/components/schemas/responseSucesso"
+              $ref: "#/components/schemas/responseSucesso"
 
         "400":
-          description: dados invalidos
+          description: Dados inválidos
           content:
             application/json:
               schema:
-                type: object
-                $ref: "#/components/schemas/responseErro"
+              $ref: "#/components/schemas/responseErro"
 
   /user/get-by-id/{id}:
     get:
-      summary: Buscar um user por ID
-      description: Retorna um user específico pelo ID
+      summary: Buscar um usuário por ID
+      tags:
+        - Usuários
+      description: Retorna um usuário específico pelo ID
       parameters:
         - name: id
           in: path
           required: true
-          description: ID do user
+          description: ID do usuário
           schema:
-            type: integer
-            example:  4bb7ab97-8c95-4c85-9571-193e7efdc359
+            type: string
+            example: "4bb7ab97-8c95-4c85-9571-193e7efdc359"
       responses:
         "200":
-          description: user encontrado
+          description: Usuário encontrado
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/user"
 
         "404":
-          description: user não encontrado
+          description: Usuário não encontrado
           content:
             application/json:
               schema:
@@ -78,79 +82,71 @@ paths:
 
   /user/update/{id}:
     put:
-      summary: Atualizar um user
-      description: Atualiza um user existente pelo ID
+      summary: Atualizar um usuário
+      tags:
+        - Usuários
+      description: Atualiza um usuário existente pelo ID
       parameters:
-        - nome: id
+        - name: id
           in: path
           required: true
-          description: ID do user a ser atualizado
+          description: ID do usuário
           schema:
-            type: integer
-            example:  4bb7ab97-8c95-4c85-9571-193e7efdc359
+            type: string
+            example: "4bb7ab97-8c95-4c85-9571-193e7efdc359"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-            type: object
-            $ref: "#/components/schemas/createUser"
+              $ref: "#/components/schemas/CreateUser"
       responses:
         "200":
-          description: atualizados com sucesso
-          content: 
-            application/json:
-              schema:
-                type: object
-                $ref: "#/components/schemas/user"
-            
-        "400":
-          description: Dados invalidos
+          description: Atualizado com sucesso
           content:
             application/json:
               schema:
-                type: object
-                $ref: "#/components/schemas/user"
+              $ref: "#/components/schemas/user"
+
+        "400":
+          description: Dados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"
 
         "404":
-          description: user não encontrado
+          description: Usuário não encontrado
           content:
             application/json:
               schema:
-                type: object
-                $ref: "#/components/schemas/responseErro"
+              $ref: "#/components/schemas/responseErro"
+
   /user/delete/{id}:
     delete:
-      summary: Deletar um user
-      description: Deleta um user expicifico pelo ID
+      summary: Deletar um usuário
+      tags:
+        - Usuários  
+      description: Deleta um usuário específico pelo ID
       parameters:
-        - nome: id
+        - name: id
           in: path
           required: true
-          description: ID do user a ser deletado
+          description: ID do usuário
           schema:
-            type: integer
-            example:  4bb7ab97-8c95-4c85-9571-193e7efdc359
+            type: string
+            example: "4bb7ab97-8c95-4c85-9571-193e7efdc359"
       responses:
         "200":
-          description: user deletado com sucesso
+          description: Usuário deletado com sucesso
           content:
             application/json:
               schema:
-                type: object
-                $ref: "#/components/schemas/responseSucesso"
+              $ref: "#/components/schemas/responseSucesso"
+
         "404":
-          description: user não encontrado
+          description: Usuário não encontrado
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/responseErro"
-
-
-
-
-
-
-
-
-
+              $ref: "#/components/schemas/responseErro"

@@ -1,0 +1,152 @@
+#paths/propostas.yaml
+
+paths:
+  /proposta:
+    get:
+      summary: Listar todas as propostas
+      tags:
+        - Propostas 
+      description: Retorna a lista de todas as propostas disponíveis
+      responses:
+        "200":
+          description: Lista de propostas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/proposta"
+
+        "404":
+          description: Nenhuma proposta encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"
+
+  /proposta/create:
+    post:
+      summary: Criar uma proposta
+      tags:
+        - Propostas
+      description: Criar uma nova proposta
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateProposta"
+      responses:
+        "200":
+          description: Criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseSucessoProposta"
+
+        "400":
+          description: Dados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"
+
+  /proposta/get-by-id/{id}:
+    get:
+      summary: Buscar proposta por ID
+      tags:
+        - Propostas
+      description: Retorna uma proposta específica pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da proposta
+          schema:
+            type: string
+            example: "prop-uuid-123abc"
+      responses:
+        "200":
+          description: Proposta encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/proposta"
+
+        "404":
+          description: Não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"
+
+  /proposta/update/{id}:
+    put:
+      summary: Atualizar proposta
+      tags:
+        - Propostas
+      description: Atualiza uma proposta existente pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da proposta
+          schema:
+            type: string
+            example: "prop-uuid-123abc"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateProposta"
+      responses:
+        "200":
+          description: Atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/proposta"
+
+        "400":
+          description: Dados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"
+
+        "404":
+          description: Não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"
+
+  /proposta/delete/{id}:
+    delete:
+      summary: Deletar proposta
+      tags:
+        - Propostas
+      description: Deleta uma proposta específica pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da proposta
+          schema:
+            type: string
+            example: "prop-uuid-123abc"
+      responses:
+        "200":
+          description: Deletado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseSucessoProposta"
+
+        "404":
+          description: Não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"

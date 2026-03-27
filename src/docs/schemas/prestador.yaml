@@ -3,97 +3,95 @@
 components:
   schemas:
 
-prestador:
-  type: object
-  properties:
-    id:
-      type: integer
-      example: 27acc54f-57cd-4b37-8c4a-be0a7bb5b3ac
-    nif:
-      type: string
-      example: 143759005
-    profissao:
-      type: string
-      example: Carpinteiro
-    taxa_urgencia:
-      type: number
-      example: 0.200
-    minimo_desconto:
-      type: number
-      example: 1000.000
-    percentagem_desconto:
-      type: number
-      example: 10.000
-    desponivel:
-      type: number
-      example: true
-    enabled:
-      type: number
-      example: true
-    created_at:
-      type: string
-      format: date-time
-      example: "2026-03-11 10:01:12"
-      
-# schema para criar um novo prestador
-CreatePrestador:
-  type: object
-  properties:
-    nif:
-      type: string
-      example: 143759005
-    profissao:
-      type: string
-      example: Carpinteiro
-    taxa_urgencia:
-      type: number
-      example: 0.200
-    minimo_desconto:
-      type: number
-      example: 1000.000
-    percentagem_desconto:
-      type: number
-      example: 10.000
-    desponivel:
-      type: number
-      example: true
-    enabled:
-      type: number
-      example: true
-    required:
-      - nif
-      - profissao
-      - taxa_urgencia
-      - minimo_desconto
-      - percentagem_desconto
-      - disponivel
-      - enabled
-
-# schema genérico para sucesso
-responseSucesso:
-  type: object
-  properties:
-    message:
-      type: string
-      example: Prestador criado com sucesso
-    status:
-      type: boolean
-      example: true
-    data:
-      $ref: "#/components/schemas/prestador"
-
-# schema genérico de erro
-responseErro:
-  type: object
-  properties:
-    message:
-      type: string
-      example: Erro ao processar a requisição
-    status:
-      type: boolean
-      example: false
-    data:
+    prestador:
       type: object
-      null: true
-  
-      
+      properties:
+        id:
+          type: string
+          example: "27acc54f-57cd-4b37-8c4a-be0a7bb5b3ac"
+        nif:
+          type: string
+          example: "143759005"
+        profissao:
+          type: string
+          example: Carpinteiro
+        taxa_urgencia:
+          type: number
+          example: 0.2
+        minimo_desconto:
+          type: number
+          example: 1000.0
+        percentagem_desconto:
+          type: number
+          example: 10.0
+        disponivel:
+          type: boolean
+          example: true
+        enabled:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: "2026-03-11T10:01:12.000Z"
+
+    # schema para criar um novo prestador
+    CreatePrestador:
+      type: object
+      properties:
+        nif:
+          type: string
+          example: "143759005"
+        profissao:
+          type: string
+          example: Carpinteiro
+        taxa_urgencia:
+          type: number
+          example: 0.2
+        minimo_desconto:
+          type: number
+          example: 1000.0
+        percentagem_desconto:
+          type: number
+          example: 10.0
+        disponivel:
+          type: boolean
+          example: true
+        enabled:
+          type: boolean
+          example: true
+      required:
+        - nif
+        - profissao
+        - taxa_urgencia
+        - minimo_desconto
+        - percentagem_desconto
+        - disponivel
+        - enabled
+
+    # schema genérico para sucesso
+    PrestadorResponseSucesso:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Prestador criado com sucesso
+        status:
+          type: boolean
+          example: true
+        data:
+          $ref: "#/components/schemas/prestador"
+
+    # schema genérico de erro
+    PrestadorResponseErro:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Erro ao processar a requisição
+        status:
+          type: boolean
+          example: false
+        data:
+          type: object
+          null: true
