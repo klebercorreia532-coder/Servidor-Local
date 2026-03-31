@@ -88,6 +88,18 @@ components:
         - password
         - enabled
 
+    loginUser:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          example: klebercorreia532@gmail.com
+        password:
+          type: string
+          example: "Baixadabxd123#"
+  
+
     # schema genérico para sucesso
     userResponseSucesso:
       type: object
@@ -100,6 +112,7 @@ components:
           example: true
         data:
           $ref: "#/components/schemas/user"
+
 
     # schema genérico de erro
     userResponseErro:

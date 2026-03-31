@@ -150,3 +150,38 @@ paths:
             application/json:
               schema:
               $ref: "#/components/schemas/responseErro"
+
+/user/login:
+  post:
+    summary: Login de usuário
+    tags:
+      - Usuários
+    description: Realiza o login de um usuário
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/loginUser"
+    responses:
+      "200":
+        description: Login bem-sucedido
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/responseSucesso"
+      "404":
+        description: "Erro ao realizar login"
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/responseErro" 
+      "400":
+        description: "Dados de login inválidos"
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/responseErro"
