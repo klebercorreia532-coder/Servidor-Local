@@ -13,7 +13,7 @@ const app = express();
 
 app.use(express.json());
 
-dotenv.config
+dotenv.config();
 
 app.use("/service", serviceRouter)
 app.use("/prestador", prestadorRouter)

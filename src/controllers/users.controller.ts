@@ -136,7 +136,15 @@ const userData = await UserModel.getByEmail(email as string)
             })
         }
 
-        const token = jwt.sign({ id: userData.id, email: userData.email }, process.env.JWT_SECRET as string, { expiresIn: "1h" })
+        const payload = {
+            id: userData.id,
+            email: userData.email,
+            nome: userData.nome
+        }
+        console.log("JWT_SECRET:", process.env.JWT_SECRET);
+        const token = jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: "1h" }
+            
+);
         return res.status(200).json({
             status: "success",
             message: "Login realizado com sucesso",
