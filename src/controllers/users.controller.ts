@@ -69,8 +69,10 @@ export const UserController = {
             message: "Utilizador encontrado com sucesso",
             data: getUserByIdResponse
         })
+        
     },
 
+    
     async update(req: Request, res: Response) {
         const { id } = req.params
 

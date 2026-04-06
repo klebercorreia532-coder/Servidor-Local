@@ -122,6 +122,41 @@ paths:
               schema:
                 $ref: "#/components/schemas/responseErro"
 
+/orcamento/{id}/calcular:
+  put:
+    summary: Calcular total do orçamento
+    tags:
+      - Orçamentos
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID do orçamento
+    responses:
+      200:
+        description: Total calculado com sucesso
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CalcularOrcamentoResponse"
+
+      404:
+        description: Orçamento não encontrado
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ErrorResponse"
+
+      500:
+        description: Erro interno
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ErrorResponse"
   /orcamento/delete/{id}:
     delete:
       summary: Deletar um orçamento

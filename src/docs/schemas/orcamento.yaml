@@ -45,6 +45,23 @@ components:
         - id_utilizador
         - enabled
 
+    # schema para calcular um orçamento
+    CalcularOrcamentoResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        message:
+          type: string
+          example: Orçamento calculado com sucesso
+        data:
+          type: object
+        properties:
+        total:
+          type: number
+          example: 15000
+
     # schema genérico para sucesso
     orcamentoResponseSucesso:
       type: object
