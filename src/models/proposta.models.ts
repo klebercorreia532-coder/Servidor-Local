@@ -1,6 +1,8 @@
+import type { get } from "node:http"
 import db from "../lib/db.js"
 import type { PropostaDBType } from "../utils/types.js"
 import { generateUUID } from "../utils/uuid.js"
+import type { RowDataPacket } from "mysql2/promise"
 
 
 export const PropostaModel = {
@@ -81,6 +83,24 @@ export const PropostaModel = {
             return null
         }
     },
+
+    async getByIdPrestacaoServico(id_prestacao_servico: string): Promise<PropostaDBType[] | null> {
+        try {
+            const [rows] = await db.execute<PropostaDBType[] & RowDataPacket[]>(
+                `SELECT * FROM tbl_propostas 
+                WHERE tbl_propostas.id_prestacao_servico = ?`,
+                [id_prestacao_servico]
+            )
+            if (Array.isArray(rows) && rows.length === 0) return null
+            return Array.isArray(rows) ? rows: null
+        } catch (err) {
+            console.log(err)
+            return null
+        }
+    },
+    async propostaAceita(id: string) {
+        
+    }, 
 
     async delete(id: string) {
         try {

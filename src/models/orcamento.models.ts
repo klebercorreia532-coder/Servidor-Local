@@ -1,5 +1,6 @@
 
 
+import { id } from "date-fns/locale/id"
 import db from "../lib/db.js"
 import type { OrcamentoDBType } from "../utils/types.js"
 import { generateUUID } from "../utils/uuid.js"
@@ -94,3 +95,14 @@ export const OrcamentoModel = {
         }
     }
 }
+
+async updateTotal(id: string, total: number) {
+        try {
+            const [rows] = await db.execute(
+                `UPDATE tbl_orcamentos SET total = ?, updated_at = ? WHERE id = ?`,
+                [ total, new Date(), id ]
+                
+            
+            )
+        }
+    }

@@ -110,10 +110,24 @@ export interface PrestacaoServicoDBType {
     id_prestador: string,
     id_servico: string,
     preco_hora: number,
-    estado: string,
+    estado:  estadoPrestacaoServico,
     id_orcamento: string,
     enabled: boolean,
     created_at: string,
     updated_at: string
 }
+
+export enum EstadoProposta {
+    PENDENTE = "pendente",
+    ACEITO = "aceito",
+    RECUSADO = "recusado"
+}
+
+export enum estadoPrestacaoServico {
+    PENDENTE = "pendente",
+    EM_ANDAMENTO = "em_andamento",
+    CONCLUIDO = "concluido",
+    CANCELADO = "cancelado"
+}
+
 
