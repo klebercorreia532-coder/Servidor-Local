@@ -1,7 +1,7 @@
 
 
 import type { Request, Response } from "express"
-import { EstadoProposta, type OrcamentoDBType, type PropostaDBType } from "../utils/types.js"
+import { EstadoProposta, type OrcamentoDBType, type PropostaDBType, type ResponseType } from "../utils/types.js"
 import { OrcamentoModel } from "../models/orcamento.models.js"
 import { id } from "date-fns/locale/id"
 import { PrestacaoServicoModel } from "../models/prestacaoservico.models.js"
@@ -121,46 +121,46 @@ export const OrcamentoController = {
         })
     },
 
-       //CALCULAR ORÇAMENTO
-    //(CRIAR / COMPLETAR)
+    // //CALCULAR ORÇAMENTO
+    // //(CRIAR / COMPLETAR)
 
 
-async calcularTotal(req: Request, res: Response) {
-    try {
-        const { id } = req.params;
+    // async calcularTotal(req: Request, res: Response) {
+    //     try {
+    //         const { id } = req.params;
 
-        if (!id) {
-            return res.status(400).json({
-                status: "error",
-                message: "ID obrigatório",
-                data: null
-            });
-        }
+    //         if (!id) {
+    //             return res.status(400).json({
+    //                 status: "error",
+    //                 message: "ID obrigatório",
+    //                 data: null
+    //             });
+    //         }
 
-        const total = await OrcamentoModel.calcularTotal(id as string);
+    //         const total = await OrcamentoModel.calcularTotal(id as string);
 
-        if (total === null) {
-            return res.status(400).json({
-                status: "error",
-                message: "Erro ao calcular orçamento",
-                data: null
-            });
-        }
+    //         if (total === null) {
+    //             return res.status(400).json({
+    //                 status: "error",
+    //                 message: "Erro ao calcular orçamento",
+    //                 data: null
+    //             });
+    //         }
 
-        return res.status(200).json({
-            status: "success",
-            message: "Total calculado com sucesso",
-            data: total
-        });
+    //         return res.status(200).json({
+    //             status: "success",
+    //             message: "Total calculado com sucesso",
+    //             data: total
+    //         });
 
-    } catch (error) {
-        return res.status(500).json({
-            status: "error",
-            message: "Erro interno",
-            data: error
-        });
-    }
-},
+    //     } catch (error) {
+    //         return res.status(500).json({
+    //             status: "error",
+    //             message: "Erro interno",
+    //             data: error
+    //         });
+    //     }
+    // },
 
     async delete(req: Request, res: Response) {
         const { id } = req.params
@@ -190,41 +190,43 @@ async calcularTotal(req: Request, res: Response) {
         })
     },
     //CALCULAR ORÇAMENTO
-async calculateBudget(req: Request, res: Response) {
-    const { id } = req.params;
+    async calculateBudget(req: Request, res: Response) {
+        const { id } = req.params;
 
         if (!id) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "ID obrigatório",
                 data: null
-            });
+            };
+            return res.status(400).json(response);
         }
         const prestacaoServico = await PrestacaoServicoModel.getByIdOrcamento(id as string);
 
-    if (!prestacaoServico) {
-            return res.status(400).json({
+        if (!prestacaoServico) {
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Prestação de serviço não encontrada para o orçamento",
                 data: null
-            });
+            };
+            return res.status(404).json(response);
         }
 
-    // fetch all proposal
-    const propostas = await PropostaModel.getByIdPrestacaoServico(prestacaoServico.id as string);
+        // fetch all proposal
+        const propostas = await PropostaModel.getByIdPrestacaoServico(prestacaoServico.id as string);
 
-    if (!propostas) {
+        if (!propostas) {
             return res.status(400).json({
                 status: "error",
                 message: "Propostas não encontradas para o orçamento",
                 data: null
             });
         }
-        
-        //find accepted proposal
-    const propostaAceita : PropostaDBType | undefined = propostas.find((proposta) => proposta.estado === EstadoProposta .ACEITO);
 
-    if (!propostaAceita) {
+        //find accepted proposal
+        const propostaAceita: PropostaDBType | undefined = propostas.find((proposta) => proposta.estado === EstadoProposta.ACEITO);
+
+        if (!propostaAceita) {
             return res.status(400).json({
                 status: "error",
                 message: "Nenhuma proposta aceita encontrada para o orçamento",
@@ -236,7 +238,7 @@ async calculateBudget(req: Request, res: Response) {
         const horasEstimadas = prestacaoServico.horas_estimadas;
 
         //fetch prestador to get urgenccy tax minima  discont percentague based on attrs in uttrs/types.ts
-        const prestador = await PrestadorModel.get(propostaAceita.idPrestador);
+        const prestador = await PrestadorModel.get(propostaAceita.id_prestador);
 
         if (!prestador) {
             return res.status(404).json({
@@ -246,20 +248,20 @@ async calculateBudget(req: Request, res: Response) {
             });
         }
 
-        const urgencyTax = prestador.TaxaUrgencia;
-        const minimaDesconto = prestador.MinimoDesconto;
-        const percentagemDesconto = prestador.PercentagemDesconto;
+        const urgencyTax = prestador.taxa_urgencia;
+        const minimaDesconto = prestador.minimo_desconto;
+        const percentagemDesconto = prestador.percentagem_desconto;
 
         //calculated the budget based on  utils/types.ts
         let subtotal = precoHora * horasEstimadas;
 
         //if minimum discont is greater than discount percentage
 
-        if(subtotal > minimaDesconto) {
+        if (subtotal > minimaDesconto) {
             subtotal = subtotal * (1 - percentagemDesconto)
         }
 
-        if(prestacaoServico.urgencia) {
+        if (prestacaoServico.urgencia) {
             subtotal = subtotal * (1 + urgencyTax)
         }
 
@@ -272,10 +274,11 @@ async calculateBudget(req: Request, res: Response) {
                 data: null
             });
         }
-        return res.status(200).json({
+        const response: ResponseType<OrcamentoDBType> = {
             status: "success",
-            message: "Orçamento calculado e atualizado com sucesso",
+            message: "Orçamento calculado com sucesso",
             data: updateOrcamentoResponse
-        });
+        };
+        return res.status(200).json(response);
     }
 }
