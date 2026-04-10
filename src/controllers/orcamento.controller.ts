@@ -1,7 +1,7 @@
 
 
 import type { Request, Response } from "express"
-import { EstadoProposta, type OrcamentoDBType, type PropostaDBType, type ResponseType } from "../utils/types.js"
+import { EstadoProposta, type OrcamentoDBType, type PrestacaoServicoDBType, type PropostaDBType, type ResponseType } from "../utils/types.js"
 import { OrcamentoModel } from "../models/orcamento.models.js"
 import { id } from "date-fns/locale/id"
 import { PrestacaoServicoModel } from "../models/prestacaoservico.models.js"
@@ -20,14 +20,15 @@ export const OrcamentoController = {
             })
         }
 
-        const createOrcamentoResponse = await OrcamentoModel.create(orcamento)
+        const createOrcamentoResponse: OrcamentoDBType | null = await OrcamentoModel.create(orcamento)
 
         if (!createOrcamentoResponse) {
-            return res.status(500).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Erro ao criar orcamento",
                 data: null
-            })
+            }
+            return res.status(500).json(response)
         }
 
         return res.status(201).json({
@@ -38,42 +39,46 @@ export const OrcamentoController = {
     },
 
     async getAll(req: Request, res: Response) {
-        const getAllOrcamentosResponse = await OrcamentoModel.getAll()
+        const getAllOrcamentosResponse : OrcamentoDBType[] | null = await OrcamentoModel.getAll()
 
         if (!getAllOrcamentosResponse) {
-            return res.status(500).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Erro ao buscar orcamentos",
                 data: null
-            })
+            }
+            return res.status(500).json(response )
         }
 
-        return res.status(200).json({
+    const response: ResponseType<OrcamentoDBType[]> = {
             status: "success",
             message: "Orcamentos buscados com sucesso",
             data: getAllOrcamentosResponse
-        })
+        }
+        return res.status(200).json(response)
     },
 
     async get(req: Request, res: Response) {
-        const { id } = req.params
+        const { id } = req.params 
 
         if (!id) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "ID obrigatorio",
                 data: null
-            })
+            }
+            return res.status(400).json(response)
         }
 
-        const getOrcamentoByIdResponse = await OrcamentoModel.get(id as string)
+        const getOrcamentoByIdResponse : OrcamentoDBType | null = await OrcamentoModel.get(id as string)
 
         if (!getOrcamentoByIdResponse) {
-            return res.status(404).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Orcamento nao encontrado",
                 data: null
-            })
+            }
+            return res.status(404).json(response)
         }
 
         return res.status(200).json({
@@ -120,67 +125,28 @@ export const OrcamentoController = {
             data: updateOrcamentoResponse
         })
     },
-
-    // //CALCULAR ORÇAMENTO
-    // //(CRIAR / COMPLETAR)
-
-
-    // async calcularTotal(req: Request, res: Response) {
-    //     try {
-    //         const { id } = req.params;
-
-    //         if (!id) {
-    //             return res.status(400).json({
-    //                 status: "error",
-    //                 message: "ID obrigatório",
-    //                 data: null
-    //             });
-    //         }
-
-    //         const total = await OrcamentoModel.calcularTotal(id as string);
-
-    //         if (total === null) {
-    //             return res.status(400).json({
-    //                 status: "error",
-    //                 message: "Erro ao calcular orçamento",
-    //                 data: null
-    //             });
-    //         }
-
-    //         return res.status(200).json({
-    //             status: "success",
-    //             message: "Total calculado com sucesso",
-    //             data: total
-    //         });
-
-    //     } catch (error) {
-    //         return res.status(500).json({
-    //             status: "error",
-    //             message: "Erro interno",
-    //             data: error
-    //         });
-    //     }
-    // },
-
-    async delete(req: Request, res: Response) {
+    
+        async delete(req: Request, res: Response) {
         const { id } = req.params
 
         if (!id) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "ID obrigatorio",
                 data: null
-            })
+            }
+            return res.status(400).json(response)
         }
 
-        const deleteOrcamentoResponse = await OrcamentoModel.delete(id as string)
+        const deleteOrcamentoResponse : OrcamentoDBType  | null = await OrcamentoModel.delete(id as string)
 
         if (!deleteOrcamentoResponse) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
-                message: "Erro ao apagar orcamento",
+                message: "Orcamento nao encontrado ou erro ao apagar",
                 data: null
-            })
+            }
+            return res.status(400).json(response)
         }
 
         return res.status(200).json({
@@ -201,7 +167,7 @@ export const OrcamentoController = {
             };
             return res.status(400).json(response);
         }
-        const prestacaoServico = await PrestacaoServicoModel.getByIdOrcamento(id as string);
+        const prestacaoServico : PrestacaoServicoDBType | null = await PrestacaoServicoModel.getByIdOrcamento(id as string);
 
         if (!prestacaoServico) {
             const response: ResponseType<null> = {
@@ -213,14 +179,15 @@ export const OrcamentoController = {
         }
 
         // fetch all proposal
-        const propostas = await PropostaModel.getByIdPrestacaoServico(prestacaoServico.id as string);
+        const propostas: PropostaDBType[] | null = await PropostaModel.getByIdPrestacaoServico(prestacaoServico.id as string);
 
         if (!propostas) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
-                message: "Propostas não encontradas para o orçamento",
+                message: "Erro ao buscar propostas para a prestação de serviço",
                 data: null
-            });
+            };
+            return res.status(400).json(response)
         }
 
         //find accepted proposal
@@ -282,3 +249,4 @@ export const OrcamentoController = {
         return res.status(200).json(response);
     }
 }
+

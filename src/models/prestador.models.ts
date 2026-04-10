@@ -1,3 +1,4 @@
+import type { RowDataPacket } from "mysql2/promise"
 import db from "../lib/db.js"
 import type { PrestadorDBType } from "../utils/types.js"
 import { generateUUID } from "../utils/uuid.js"
@@ -30,15 +31,16 @@ export const PrestadorModel = {
         }
     },
 
-    async getAll() {
-        const [rows] = await db.execute("SELECT * FROM tbl_prestadores")
+    async getAll(): Promise<PrestadorDBType[] | null> {
+        const [rows] = await db.execute < PrestadorDBType[] & RowDataPacket[]>
+        ("SELECT * FROM tbl_prestadores")
 
         return rows
     },
 
     async get(id: string): Promise<PrestadorDBType | null>{
         try {
-            const [rows] = await db.execute(
+            const [rows] = await db.execute < PrestadorDBType & RowDataPacket[]>(
                 `SELECT * FROM tbl_prestadores 
                 WHERE tbl_prestadores.id = ?`,
 

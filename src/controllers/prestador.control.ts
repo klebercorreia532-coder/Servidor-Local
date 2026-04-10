@@ -55,7 +55,7 @@ export const prestadorController = {
                 data: null
             })
         }
-        const response = await PrestadorModel. getById(id as string)
+        const response = await PrestadorModel.get(id as string)
         if (!response) {
             return res.status(404).json({
                 status: "error",

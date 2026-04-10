@@ -6,9 +6,9 @@ import type { RowDataPacket } from "mysql2/promise"
 
 
 export const PropostaModel = {
-    async create(proposta: PropostaDBType) {
+    async create(proposta: PropostaDBType) : Promise<PropostaDBType | null> {
         try {
-            const [rows] = await db.execute(
+            const [rows] = await db.execute <PropostaDBType & RowDataPacket[]>(
                 `INSERT INTO tbl_propostas 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
 
@@ -23,23 +23,23 @@ export const PropostaModel = {
                     new Date()
                 ]
             )
-            console.log({ rows })
-            return rows
+            
+            return rows as PropostaDBType
         } catch (err) {
             console.log(err)
             return null
         }
     },
 
-    async getAll() {
-        const [rows] = await db.execute("SELECT * FROM tbl_propostas")
+    async getAll() : Promise<PropostaDBType[] | null> {
+        const [rows] = await db.execute<PropostaDBType[] & RowDataPacket[]>("SELECT * FROM tbl_propostas")
 
-        return rows
+        return rows as PropostaDBType[]
     },
 
-    async get(id: string) {
+    async get(id: string) : Promise<PropostaDBType | null> {
         try {
-            const [rows] = await db.execute(
+            const [rows] = await db.execute<PropostaDBType[] & RowDataPacket[]>(
                 `SELECT * FROM tbl_propostas 
                 WHERE tbl_propostas.id = ?`,
 
@@ -47,16 +47,16 @@ export const PropostaModel = {
             )
 
             if (Array.isArray(rows) && rows.length === 0) return null
-            return Array.isArray(rows) ? rows[0] : null
+            return Array.isArray(rows) ? rows[0] as PropostaDBType : null
         } catch (err) {
             console.log(err)
             return null
         }
     },
 
-    async update(id: string, proposta: PropostaDBType) {
+    async update(id: string, proposta: PropostaDBType) : Promise<PropostaDBType | null> {
         try {
-            const [rows] = await db.execute(
+            const [rows] = await db.execute<PropostaDBType & RowDataPacket[]>(
                 `UPDATE tbl_propostas 
                 SET id_prestacao_servico = ?, 
                 preco_hora = ?, 

@@ -137,7 +137,7 @@ export interface ResponseType<T> {
     message: string;
     data: T | null;
 }
-export interface PrestacaoServicoDetalhadoType {
+export interface PrestacaoServicoDetalhadaType {
     id: string,
     nome_utilizador: string,
     email_utilizador: string,

@@ -138,4 +138,43 @@ export async function aceitarProposta(req: Request, res: Response) {
         });
     }
 }
+    // //CALCULAR ORÇAMENTO
+    // //(CRIAR / COMPLETAR)
 
+
+    // async calcularTotal(req: Request, res: Response) {
+    //     try {
+    //         const { id } = req.params;
+
+    //         if (!id) {
+    //             return res.status(400).json({
+    //                 status: "error",
+    //                 message: "ID obrigatório",
+    //                 data: null
+    //             });
+    //         }
+
+    //         const total = await OrcamentoModel.calcularTotal(id as string);
+
+    //         if (total === null) {
+    //             return res.status(400).json({
+    //                 status: "error",
+    //                 message: "Erro ao calcular orçamento",
+    //                 data: null
+    //             });
+    //         }
+
+    //         return res.status(200).json({
+    //             status: "success",
+    //             message: "Total calculado com sucesso",
+    //             data: total
+    //         });
+
+    //     } catch (error) {
+    //         return res.status(500).json({
+    //             status: "error",
+    //             message: "Erro interno",
+    //             data: error
+    //         });
+    //     }
+    // },
