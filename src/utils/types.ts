@@ -147,4 +147,17 @@ export interface PrestacaoServicoDetalhadaType {
     urigencia: boolean,
 
 }
-
+export interface ServicoDetalhadaType {
+    id: string;
+    nome: string;
+    descricao: string;
+    categoria: string;
+    enabled: boolean;
+    created_at: Date;
+    updated_at: Date;
+    empresas: {
+        id_empresa: string;
+        designacao: string;
+        icone: string;
+    }[];
+}

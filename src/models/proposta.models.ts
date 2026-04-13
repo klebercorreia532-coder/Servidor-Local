@@ -102,9 +102,9 @@ export const PropostaModel = {
         
     }, 
 
-    async delete(id: string) {
+    async delete(id: string): Promise<PropostaDBType | null> {
         try {
-            const rows: any = await db.execute(
+            const rows: any = await db.execute<PropostaDBType[] & RowDataPacket[]>(
                 `DELETE FROM tbl_propostas 
                 WHERE id = ?`,
 

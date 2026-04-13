@@ -1,6 +1,6 @@
 import { create } from "node:domain";
 import { ServiceModel as serviceModel} from "../models/servico.models.js";
-import type { ServicoDBType } from "../utils/types.js";
+import type { ResponseType, ServicoDBType } from "../utils/types.js";
 import type { Request, Response } from "express";
 
 
@@ -18,14 +18,21 @@ export const servicoController = {
             })
         }
 
-        const createServiceResponse = await serviceModel.create(newService)
+        const createServiceResponse: ServicoDBType | null = await serviceModel.create(newService)
 
-        if (createServiceResponse === null) {
-            return res.status(400).json({
-                status: "error",
-                message: "Erro ao criar servico",
-                data: null
-            })
+        if (createServiceResponse) {
+            const response: ResponseType<ServicoDBType> = {
+                status: "success",
+                message: "Servico criado com sucesso",
+                data: createServiceResponse
+            }
+            return res.status(201).json(response)
+        }
+
+        const response: ResponseType<null> = {
+            status: "error",
+            message: "Erro ao criar servico",
+            data: null
         }
 
         res.status(200).json({

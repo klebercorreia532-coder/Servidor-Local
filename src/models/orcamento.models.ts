@@ -11,7 +11,7 @@ import type { RowDataPacket } from "mysql2"
 export const OrcamentoModel = {
     async create(orcamento: OrcamentoDBType): Promise<OrcamentoDBType | null> {
         try {
-            const [rows] = await db.execute <OrcamentoDBType & RowDataPacket[]>(
+            const [rows] = await db.execute<OrcamentoDBType & RowDataPacket[]>(
                 `INSERT INTO tbl_orcamentos 
                 VALUES (?, ?, ?, ?, ?, ?)`,
 
@@ -24,7 +24,7 @@ export const OrcamentoModel = {
                     new Date()
                 ]
             )
-            
+
             return rows as OrcamentoDBType
         } catch (err) {
             console.log(err)
@@ -33,8 +33,8 @@ export const OrcamentoModel = {
     },
 
     async getAll(): Promise<OrcamentoDBType[] | null> {
-        const [rows] = await db.execute < OrcamentoDBType[] & RowDataPacket[]>
-           ("SELECT * FROM tbl_orcamentos")
+        const [rows] = await db.execute<OrcamentoDBType[] & RowDataPacket[]>
+            ("SELECT * FROM tbl_orcamentos")
 
 
         return rows as OrcamentoDBType[]
@@ -57,7 +57,7 @@ export const OrcamentoModel = {
         }
     },
 
-    async update(id: string, orcamento: OrcamentoDBType){
+    async update(id: string, orcamento: OrcamentoDBType) {
         try {
             const [rows] = await db.execute<OrcamentoDBType & RowDataPacket[]>(
                 `UPDATE tbl_orcamentos 

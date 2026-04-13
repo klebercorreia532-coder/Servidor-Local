@@ -1,7 +1,7 @@
 
 
 import type { Request, Response } from "express"
-import type { UserType } from "../utils/types.js"
+import type { ResponseType, UserType } from "../utils/types.js"
 import { UserModel } from "../models/users.model.js"
 import { comparePasswoerd } from "../utils/password.js"
 import jwt from "jsonwebtoken"
@@ -69,10 +69,10 @@ export const UserController = {
             message: "Utilizador encontrado com sucesso",
             data: getUserByIdResponse
         })
-        
+
     },
 
-    
+
     async update(req: Request, res: Response) {
         const { id } = req.params
 
@@ -110,7 +110,7 @@ export const UserController = {
             data: updateUserResponse
         })
     },
-    async login(req:Request, res:Response) {
+    async login(req: Request, res: Response) {
         const { email, password } = req.body
 
         if (!email || !password) {
@@ -120,7 +120,7 @@ export const UserController = {
                 data: null
             })
         }
-const userData = await UserModel.getByEmail(email as string)
+        const userData = await UserModel.getByEmail(email as string)
         if (!userData) {
             return res.status(404).json({
                 status: "error",
@@ -145,8 +145,8 @@ const userData = await UserModel.getByEmail(email as string)
         }
         console.log("JWT_SECRET:", process.env.JWT_SECRET);
         const token = jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: "1h" }
-            
-);
+
+        );
         return res.status(200).json({
             status: "success",
             message: "Login realizado com sucesso",
@@ -212,27 +212,29 @@ const userData = await UserModel.getByEmail(email as string)
         })
     },
 
-    async delete(req: Request, res: Response) {
+    async delete(req: Request, res: Response): Promise<Response> {
         const { id } = req.params
-        
+
         if (!id) {
-            return res.status(400).json({
+        const response: ResponseType<null> = {
                 status: "error",
                 message: "ID obrigatorio",
                 data: null
-            })
+            }
+            return res.status(400).json(response)
         }
-        
-        const deleteUserResponse = await UserModel.delete(id as string)
-        
+
+        const deleteUserResponse: UserType | null = await UserModel.delete(id as string)
+
         if (!deleteUserResponse) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Erro ao apagar utilizador",
                 data: null
-            })
+            }
+            return res.status(400).json(response)
         }
-        
+
         return res.status(200).json({
             status: "success",
             message: "Utilizador apagado com sucesso",

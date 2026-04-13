@@ -1,10 +1,13 @@
 
 import type { get } from "node:http";
 import db from "../lib/db.js";
-import type { ServicoDBType } from "../utils/types.js";
+import type { ServicoDBType, ServicoDetalhadaType, } from "../utils/types.js";
+import type { RowDataPacket } from "mysql2/promise";
+import { getAllServices } from "../servico.js";
+import { isArray } from "node:util";
 
 export const ServiceModel = {
-    async create(newService: ServicoDBType) {
+    async create(newService: ServicoDBType): Promise<ServicoDBType | null> {
         try {
             const query = `INSERT INTO tbl_servicos VALUES (?, ?, ?, ?, ?, ?, ?)`
 
@@ -18,9 +21,9 @@ export const ServiceModel = {
                 new Date()
             ]
 
-            const rows = await db.execute(query, values)
+            const [rows] = await db.execute<ServicoDBType & RowDataPacket[]>(query, values)
 
-            return rows
+            return rows as ServicoDBType
         } catch (error) {
             console.log(error)
             return null
@@ -28,13 +31,14 @@ export const ServiceModel = {
 
     },
 
-    async getAll() {
+    async getAll(): Promise<ServicoDBType | null> {
         try {
             const query = `SELECT * FROM tbl_servicos`
 
-            const rows = await db.execute(query)
+            const [rows] = await db.execute<ServicoDBType & RowDataPacket[]>(query)
 
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] : []
+            if (!rows || (Array.isArray(rows) && rows.length === 0)) return null
+            return Array.isArray(rows) && rows.length > 0 ? rows[0] as ServicoDBType : null
 
         } catch (error) {
             console.log(error)
@@ -48,9 +52,10 @@ export const ServiceModel = {
 
             const value = [id]
 
-            const rows = await db.execute(query, value)
+            const [rows] = await db.execute<ServicoDBType & RowDataPacket[]>(query, value)
 
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] : null
+            if (!rows || (Array.isArray(rows) && rows.length === 0)) return null
+            return Array.isArray(rows) && rows.length > 0 ? rows[0] as ServicoDBType : null
 
         } catch (error) {
             console.log(error)
@@ -89,19 +94,46 @@ export const ServiceModel = {
         }
     },
 
-    async delete(id: string) {
+    async delete(id: string): Promise<ServicoDBType | null> {
         try {
             const query = `DELETE FROM tbl_servicos WHERE id = ?`
 
             const value = [id]
 
-            const rows: any = await db.execute(query, value)
+            const [rows] = await db.execute<ServicoDBType & RowDataPacket[]>(query, value)
 
             return rows[0]?.affectedRows === 0 ? null : rows
         } catch (error) {
             console.log(error)
             return null
         }
-    }
+    },
 
+    async getAllServiceDetalhada(limit: number, offset: number): Promise<ServicoDetalhadaType[] | null> {
+        try {
+            const query = 
+            `SELECT 
+            id
+            nome,
+            descricao as descricao_categoria,
+            icone as icone_categoria,
+            id as id_empresa,
+            designacao as designacao_empresa,
+            icone as icone_empresa,
+            enabled,
+            FROM tbl_servicos
+            INNERJOIN tbl_categorias c ON c.id = s.id_categorias
+            INNERJOIN tbl_empresas e ON e.id = s.id_empresa
+            LIMIT ? OFFSET ?`
+
+            const values = [limit, offset]
+
+            const [rows] = await db.execute<ServicoDetalhadaType[] & RowDataPacket[]>(query, values)
+
+            return Array.isArray(rows) && rows.length > 0 ? rows as ServicoDetalhadaType[] : null
+        } catch (error) {
+            console.log(error)
+            return null
+        }
+    }
 }

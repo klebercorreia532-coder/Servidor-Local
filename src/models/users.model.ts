@@ -1,5 +1,6 @@
 
 
+import type { RowDataPacket } from "mysql2/promise"
 import db from "../lib/db.js"
 import { formatDateDDMMYYYY } from "../utils/date.js"
 import { hashPassword } from "../utils/password.js"
@@ -116,7 +117,7 @@ export const UserModel = {
     // delete user
     async delete(id: string) {
         try {
-            const rows: any = await db.execute(
+            const rows: any = await db.execute<RowDataPacket[]>(
                 `DELETE FROM tbl_utilizadores 
                 WHERE id = ?`,
 

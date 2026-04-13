@@ -94,29 +94,33 @@ export const OrcamentoController = {
         const updatedOrcamento: OrcamentoDBType = req.body
 
         if (!id) {
-            return res.status(400).json({
+        const response: ResponseType<null> = {
                 status: "error",
                 message: "ID obrigatorio",
                 data: null
-            })
+            }
+            return res.status(400).json(response)
         }
 
         if (!updatedOrcamento) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Dados de orcamento invalidos",
                 data: null
-            })
+            }
+            return res.status(400).json(response)
+
         }
 
-        const updateOrcamentoResponse = await OrcamentoModel.update(id as string, updatedOrcamento)
+        const updateOrcamentoResponse: OrcamentoDBType | null = await OrcamentoModel.update(id as string, updatedOrcamento)
 
         if (!updateOrcamentoResponse) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Erro ao atualizar orcamento",
                 data: null
-            })
+            }
+            return res.status(400).json(response)
         }
 
         return res.status(200).json({
