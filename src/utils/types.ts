@@ -1,3 +1,27 @@
+import e from "express";
+export enum EstadoProposta {
+    PENDENTE = "pendente",
+    ACEITO = "aceito",
+    RECUSADO = "recusado"
+}
+
+export enum TipoPrestacao {
+    PATICULAR = "Particular", 
+    EMPRESA = "Empresa",
+}
+export enum estadoPrestacaoServico {
+    PENDENTE = "pendente",
+    EM_ANDAMENTO = "em_andamento",
+    CONCLUIDO = "concluido",
+    CANCELADO = "cancelado"
+}
+export enum Role {
+    CLIENTE = "cliente",
+    ADMIN = "admin",
+    PRESTADOR = "prestador",
+    EMPRESA = "empresa"
+}
+
 export interface PedidoServico {
     cliente: string;
     descricao: string;
@@ -46,6 +70,7 @@ export interface UserType {
     pais: string;
     localidade: string;
     password: string;
+    role: Role;
     enabled: boolean;
     created_at: Date;
     updated_at: Date;
@@ -114,24 +139,13 @@ export interface PrestacaoServicoDBType {
     estado:  estadoPrestacaoServico,
     id_orcamento: string,
     id_utilizador: string,
+    tipo_prestacao: TipoPrestacao,
     urgencia: boolean,
     enabled: boolean,
     created_at: string,
     updated_at: string
 }
 
-export enum EstadoProposta {
-    PENDENTE = "pendente",
-    ACEITO = "aceito",
-    RECUSADO = "recusado"
-}
-
-export enum estadoPrestacaoServico {
-    PENDENTE = "pendente",
-    EM_ANDAMENTO = "em_andamento",
-    CONCLUIDO = "concluido",
-    CANCELADO = "cancelado"
-}
 export interface ResponseType<T> {
     status: "success" | "error";
     message: string;
@@ -151,13 +165,22 @@ export interface ServicoDetalhadaType {
     id: string;
     nome: string;
     descricao: string;
-    categoria: string;
+    designacao_categoria: string;
+    icone_categoria: string;
+    id_empresa: string;
+    designacao_empresa: string;
+    icone_empresa: string;
     enabled: boolean;
-    created_at: Date;
-    updated_at: Date;
-    empresas: {
-        id_empresa: string;
-        designacao: string;
-        icone: string;
-    }[];
+}
+ export interface EmpresaType {
+    id: string;
+    designacao: string;
+    descricao: string;
+    nif: string;
+    icone: string;
+    id_utilizador: string;
+    loclizacao: string;
+    enabled: boolean;
+    created_at: string;
+    updated_at: string;
 }

@@ -54,14 +54,16 @@ export const UserController = {
             })
         }
 
-        const getUserByIdResponse = await UserModel.get(id as string)
+        const getUserByIdResponse: UserType | null = await UserModel.get(id as string)
 
         if (!getUserByIdResponse) {
-            return res.status(404).json({
+
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Utilizador nao encontrado",
                 data: null
-            })
+            }
+            return res.status(404).json(response)
         }
 
         return res.status(200).json({
@@ -141,7 +143,9 @@ export const UserController = {
         const payload = {
             id: userData.id,
             email: userData.email,
-            nome: userData.nome
+            nome: userData.nome,
+            roles: userData.role
+
         }
         console.log("JWT_SECRET:", process.env.JWT_SECRET);
         const token = jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: "1h" }
@@ -216,7 +220,7 @@ export const UserController = {
         const { id } = req.params
 
         if (!id) {
-        const response: ResponseType<null> = {
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "ID obrigatorio",
                 data: null

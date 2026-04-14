@@ -120,6 +120,7 @@ export const ServiceModel = {
             id as id_empresa,
             designacao as designacao_empresa,
             icone as icone_empresa,
+            s.enabled 
             enabled,
             FROM tbl_servicos
             INNERJOIN tbl_categorias c ON c.id = s.id_categorias

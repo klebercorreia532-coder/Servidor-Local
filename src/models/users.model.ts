@@ -44,9 +44,9 @@ export const UserModel = {
         return rows
     },
 
-    async get(id: string) {
+    async get(id: string): Promise<UserType | null> {
         try {
-            const [rows] = await db.execute(
+            const [rows] = await db.execute <UserType[] & RowDataPacket[]>(
                 `SELECT * FROM tbl_utilizadores 
                 WHERE tbl_utilizadores.id = ?`,
 
@@ -54,7 +54,7 @@ export const UserModel = {
             )
 
             if (Array.isArray(rows) && rows.length === 0) return null
-            return Array.isArray(rows) ? rows[0] : null
+            return Array.isArray(rows) ? rows[0] as UserType: null
         } catch (err) {
             console.log(err)
             return null
@@ -63,7 +63,7 @@ export const UserModel = {
 
     async getByEmail(email: string): Promise<UserType | null> {
         try {
-            const [rows] = await db.execute(
+            const [rows] = await db.execute<UserType[] & RowDataPacket[]>(
                 `SELECT * FROM tbl_utilizadores 
                 WHERE tbl_utilizadores.email = ?`,
 

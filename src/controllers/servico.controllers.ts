@@ -1,6 +1,6 @@
 import { create } from "node:domain";
-import { ServiceModel as serviceModel} from "../models/servico.models.js";
-import type { ResponseType, ServicoDBType } from "../utils/types.js";
+import { ServiceModel as serviceModel } from "../models/servico.models.js";
+import type { ResponseType, ServicoDBType, ServicoDetalhadaType } from "../utils/types.js";
 import type { Request, Response } from "express";
 
 
@@ -43,14 +43,15 @@ export const servicoController = {
     },
 
     async getAll(req: Request, res: Response) {
-        const getAllServiceResponse = await serviceModel.getAll()
+        const getAllServiceResponse: ServicoDBType | null = await serviceModel.getAll()
 
         if (!getAllServiceResponse) {
-            return res.status(404).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Erro ao selecionar servicos",
                 data: null
-            })
+            }
+            return res.status(404).json(response)
         }
 
         res.status(200).json({
@@ -63,21 +64,24 @@ export const servicoController = {
         const id = req.params.id
 
         if (!id) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "ID do servico nõa fornecido",
                 data: null
-            })
+            }
+            return res.status(400).json(response)
         }
 
-        const getServiceResponse = await serviceModel.get(id as string)
+        const getServiceResponse: ServicoDBType | null = await serviceModel.get(id as string)
 
         if (!getServiceResponse) {
-            return res.status(404).json({
+
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Servico não encontrado",
                 data: null
-            })
+            }
+            return res.status(404).json(response)
         }
 
         res.status(200).json({
@@ -151,5 +155,41 @@ export const servicoController = {
             message: "Servico apagado com sucesso",
             data: deleteServiceResponse
         })
+    },
+    async getAllServiceDetalhada(req: Request, res: Response) {
+        const { limit, offset } = req.query
+
+        let LIMIT = 10
+        let OFFSET = 0
+
+        if (limit) {
+            LIMIT = parseInt(limit as string)
+        }
+
+        if (offset) {
+            OFFSET = parseInt(offset as string)
+        }
+
+
+        const getAllServiceDetalhadaResponse = await serviceModel.getAllServiceDetalhada(
+            LIMIT,
+            OFFSET
+        )
+
+        if (!getAllServiceDetalhadaResponse) {
+            const response: ResponseType<null> = {
+                status: "error",
+                message: "Erro ao selecionar servicos detalhados",
+                data: null
+            }
+            return res.status(404).json(response)
+        }
+
+        res.status(200).json({
+            status: "success",
+            message: "Servicos detalhados encontrados",
+            data: getAllServiceDetalhadaResponse
+        })
     }
+
 }

@@ -70,7 +70,42 @@ criated_at DATETIME NOT NULL,
 updated_at DATETIME NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS tbl_empresa(
+	id INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    designacao VARCHAR(255) NOT NULL,
+    descricao VARCHAR(255),
+    localizacao VARCHAR (100) NOT NULL,
+	nif DOUBLE NOT NULL UNIQUE,
+    icone VARCHAR(255),
+    enabled BOOLEAN,
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME NOT NULL 
+    );
+   
+CREATE TABLE tbl_categoria (
+	id INTEGER NOT NULL AUTO_INCREMENT UNIQUE PRIMARY KEY,
+    designacao VARCHAR (255) NOT NULL,
+    icone VARCHAR (255),
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME NOT NULL
+    );
 
+ALTER TABLE tbl_empresa
+    ADD COLUMN id_utilizador VARCHAR(255) NOT NULL AFTER icone,
+	ADD CONSTRAINT fk_utilizador_empresa
+    FOREIGN KEY (id_utilizador)
+    REFERENCES tbl_utilizadores(id)
+    ;
+    
+  ALTER TABLE tbl_servico
+    DROP COLUMN categoria,
+    ADD COLUMN id_categoria INTEGER NOT NULL AFTER descricao,
+	ADD CONSTRAINT fk_categoria_servico
+    FOREIGN KEY (id_categoria)
+    REFERENCES tbl_categoria(id)
+    ;
+    
+    
 ALTER TABLE tbl_proposta
 ADD CONSTRAINT fk_prestacao_servico_propasta
 FOREIGN KEY (id_prestacao_servico) 

@@ -78,3 +78,36 @@ components:
         data:
           type: object
           null: true
+
+# schema para buscar servico detalhado
+    servicoDetalhada:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: Serviço de limpeza
+        descricao:
+          type: string
+          example: Serviço de limpeza profissional para residências e empresas
+        designacao_categoria:
+          type: string
+          example: limpeza
+        icone_categoria:
+          type: string
+          example: ""
+        id_empresa:
+          type: integer
+          example: 1
+        designacao_empresa:
+          type: string
+          example: "Empresa de Limpeza"
+        icone_empresa:
+          type: string
+          example: ""
+        enabled:
+          type: boolean
+          example: true
+            
