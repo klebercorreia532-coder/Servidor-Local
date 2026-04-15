@@ -140,6 +140,7 @@ export interface PrestacaoServicoDBType {
     id_orcamento: string,
     id_utilizador: string,
     tipo_prestacao: TipoPrestacao,
+
     urgencia: boolean,
     enabled: boolean,
     created_at: string,
@@ -184,3 +185,12 @@ export interface ServicoDetalhadaType {
     created_at: string;
     updated_at: string;
 }
+export interface CategoriaType {
+    id: string;
+    nome: string;
+    icone: string;
+    enabled: boolean;
+    created_at: string;
+    updated_at: string;
+        
+    }

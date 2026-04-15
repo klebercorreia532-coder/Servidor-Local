@@ -99,7 +99,7 @@ ALTER TABLE tbl_empresa
     
   ALTER TABLE tbl_servico
     DROP COLUMN categoria,
-    ADD COLUMN id_categoria INTEGER NOT NULL AFTER descricao,
+    ADD COLUMN id_categoria INTEGER AFTER descricao,
 	ADD CONSTRAINT fk_categoria_servico
     FOREIGN KEY (id_categoria)
     REFERENCES tbl_categoria(id)
@@ -139,5 +139,21 @@ REFERENCES tbl_prestacao_servico(id)
 
 ALTER TABLE tbl_prestadores
 ADD CONSTRAINT fk_prestacao_servico_prestadores
-FOREIGN KEY (id)
-
+FOREIGN KEY tbl_prestacao_servico(id)
+;
+ALTER TABLE tbl_prestadores
+ADD COLUMN id_empresa INTEGER,
+ADD CONSTRAINT fK_empresa_prestadores
+FOREIGN KEY (id_empresa)
+REFERENCES tbl_empresa(id)
+;
+ALTER TABLE tbl_prestacao_servico
+ADD COLUMN id_empresa INTEGER,
+ADD COLUMN tipo_prestador ENUM("EMPRESA", "particular"),
+ADD CONSTRAINT fk_empresa_prestacao_servico
+FOREIGN KEY (id_empresa)
+REFERENCES tbl_empresa(id)
+;
+ALTER TABLE tbl_utilizadores
+ADD COLUMN `role` ENUM("cliente", "admin", "prestador", "empresa") default "cliente"
+;

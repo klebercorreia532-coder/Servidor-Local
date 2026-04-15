@@ -162,5 +162,26 @@ export const PrestacaoServicoModel = {
             console.log(err)
             return null
         }
+},
+async getByCategoria(categoria: string, limit: number, offset: number) {
+    try{
+        const query=
+        `SELECT 
+        ps.id as id_prestacao_servico,
+        ps.designacao as designacao,
+        u.nome as nome_utilizador,
+        u.email as email_utilizador,
+        s.nome as nome_servico,
+        c.
+        ps.created_at as data_pedido,
+        ps.urgencia as urgencia
+        FROM tbl_prestacao_servico ps
+        INNER JOIN tbl_servicos s ON ps.id_servico = c.id
+        INNER JOIN tbl_utilizadores u ON ps.id_utilizador = u.id
+        WHERE s.categoria = ?`
+          
+
+    }
+
 }
 }

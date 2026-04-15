@@ -17,21 +17,16 @@ const userRouter = {
 
 
 const router = Router()
-
-router.post(userRouter.login, UserController.login)
-
-router.post(userRouter.create, UserController.create)
+router.post(userRouter.login,UserController.login)
+router.post(userRouter.create,authorize([Role.ADMIN]), UserController.create)
 
 router.use(authMiddleware)
 
-router.get(userRouter.getAll, authorize([Role.ADMIN]), UserController.getAll)
-
-router.get(userRouter.getById, authorize([Role.ADMIN, Role.CLIENTE, Role.PRESTADOR, Role.EMPRESA]), UserController.getById)
-
-router.put(userRouter.update, authorize([Role.ADMIN, Role.CLIENTE, Role.PRESTADOR, Role.EMPRESA]), UserController.update)
-
-router.delete(userRouter.delete, authorize([Role.ADMIN, Role.CLIENTE, Role.PRESTADOR, Role.EMPRESA]), UserController.delete)
-
 router.put(userRouter.resetPassword, authorize([Role.ADMIN, Role.CLIENTE, Role.PRESTADOR, Role.EMPRESA]), UserController.resetPassword)
+router.get(userRouter.getById, authorize([Role.ADMIN, Role.CLIENTE, Role.PRESTADOR, Role.EMPRESA]), UserController.getById)
+router.put(userRouter.update, authorize([Role.ADMIN, Role.CLIENTE, Role.PRESTADOR, Role.EMPRESA]), UserController.update)
+router.get(userRouter.getAll, authorize([Role.ADMIN]), UserController.getAll)
+router.delete(userRouter.delete, authorize([Role.ADMIN]), UserController.delete)
+
 export { router }
 

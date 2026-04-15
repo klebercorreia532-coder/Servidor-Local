@@ -1,12 +1,25 @@
 
 import { Router } from "express"
 import { PropostaController } from "../controllers/proposta.controller.js"
+import authMiddleware, { authorize } from "../security/auth.middleware.js"
+import { Role } from "../utils/types.js"
+
+const PropostaRoute = {
+    create: "/create",
+    getAll: "/",
+    getById: "/:id",
+    update: "/:id",
+    delete: "/:id"
+}
 const router = Router()
 
-router.post("/", PropostaController.create)
-router.get("/", PropostaController.getAll)
-router.get("/:id", PropostaController.get)
-router.put("/:id", PropostaController.update)
-router.delete("/:id", PropostaController.delete)
+router.use(authMiddleware)
+
+router.post(PropostaRoute.create, authorize([Role.ADMIN, Role.PRESTADOR,Role.CLIENTE, Role.EMPRESA]), PropostaController.create)
+router.put(PropostaRoute.update, authorize([Role.ADMIN, Role.PRESTADOR,Role.CLIENTE, Role.EMPRESA]), PropostaController.update)
+router.delete(PropostaRoute.delete, authorize([Role.ADMIN, Role.PRESTADOR,Role.CLIENTE, Role.EMPRESA]), PropostaController.delete)
+
+router.get(PropostaRoute.getAll, authorize([Role.ADMIN]), PropostaController.getAll)
+router.get(PropostaRoute.getById, authorize([Role.ADMIN, Role.PRESTADOR,Role.CLIENTE, Role.EMPRESA]), PropostaController.get)
 
 export { router }

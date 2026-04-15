@@ -1,5 +1,7 @@
 import { Router } from "express"
 import { OrcamentoController } from "../controllers/orcamento.controller.js"
+import { Role } from "../utils/types.js"
+import authMiddleware, { authorize } from "../security/auth.middleware.js"
 
 const OrcamentoRoute = {
     create: "/create",
@@ -11,10 +13,12 @@ const OrcamentoRoute = {
 
 const router = Router()
 
-router.post(OrcamentoRoute.create, OrcamentoController.create)
-router.get(OrcamentoRoute.getAll, OrcamentoController.getAll)
-router.get(OrcamentoRoute.getById, OrcamentoController.get)
-router.put(OrcamentoRoute.update, OrcamentoController.update)
-router.delete(OrcamentoRoute.delete, OrcamentoController.delete)
 
+router.get(OrcamentoRoute.getById, authorize([Role.ADMIN, Role.CLIENTE]), OrcamentoController.get)
+router.post(OrcamentoRoute.create, authorize([Role.ADMIN, Role.CLIENTE]), OrcamentoController.create)
+router.put(OrcamentoRoute.update, authorize([Role.ADMIN, Role.CLIENTE]), OrcamentoController.update)
+
+router.use(authMiddleware)
+router.get(OrcamentoRoute.getAll, authorize([Role.ADMIN]), OrcamentoController.getAll)
+router.delete(OrcamentoRoute.delete, authorize([Role.ADMIN]), OrcamentoController.delete)
 export { router }

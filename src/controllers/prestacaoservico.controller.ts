@@ -173,5 +173,39 @@ export const PrestacaoServicoController = {
             message: "Prestacoes de servico detalhadas buscadas com sucesso",
             data: getAllPrestacaoServicosDetalhadaResponse
         })
-    }
-} 
+    },
+    async getAllPrestacaoServicoByCategoria(req: Request, res: Response) {
+        const { categoria, limit, offset } = req.query as {
+            categoria?: string
+            limit?: string
+            offset?: string
+        }
+
+        let LIMIT = 10
+        let OFFSET = 0
+
+        const parsedLimit = parseInt(limit as string)
+        const parsedOffset = parseInt(offset as string)
+
+        if (!isNaN(parsedLimit) && parsedLimit > 0) LIMIT = parsedLimit
+        if (!isNaN(parsedOffset) && parsedOffset >= 0) OFFSET = parsedOffset
+
+        if (!categoria) {
+            return res.status(400).json({
+                status: "error",
+                message: "Categoria obrigatoria",
+                data: null
+            })
+        }
+
+        const result = await PrestacaoServicoModel.getByCategoria(categoria, LIMIT, OFFSET)
+
+        return res.status(200).json({
+            status: "success",
+            message: "Prestacoes encontradas",
+            data: result
+        })
+
+  
+}
+}
