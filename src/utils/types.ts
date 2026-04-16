@@ -194,3 +194,8 @@ export interface CategoriaType {
     updated_at: string;
         
     }
+
+export interface PrestadorServiceCategoriaType {
+    id_prestaCao_servico: string;
+    designacao: string;
+    

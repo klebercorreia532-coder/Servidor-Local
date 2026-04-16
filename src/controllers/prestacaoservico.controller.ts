@@ -1,5 +1,5 @@
 import type { Request, Response } from "express"
-import type { PrestacaoServicoDBType, ResponseType } from "../utils/types.js"
+import type { PrestacaoServicoDBType, PrestacaoServicoDetalhadaType, ResponseType } from "../utils/types.js"
 import { PrestacaoServicoModel } from "../models/prestacaoservico.models.js"
 
 export const PrestacaoServicoController = {
@@ -103,14 +103,15 @@ export const PrestacaoServicoController = {
             })
         }
 
-        const updatePrestacaoServicoResponse = await PrestacaoServicoModel.update(id as string, updatedPrestacaoServico)
+        const updatePrestacaoServicoResponse: PrestacaoServicoDBType | null= await PrestacaoServicoModel.update(id as string, updatedPrestacaoServico)
 
         if (!updatePrestacaoServicoResponse) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {  
                 status: "error",
                 message: "Erro ao atualizar prestacao de servico",
                 data: null
-            })
+            }
+            return res.status(500).json(response)
         }
 
         return res.status(200).json({
@@ -149,7 +150,7 @@ export const PrestacaoServicoController = {
             data: deletePrestacaoServicoResponse
         })
     },
-    async getPrestacaoServicoDetalhada(req: Request, res: Response) {
+    async getAllPrestacaoServicoDetalhada(req: Request, res: Response) {
         const { limit, offset } = req.query as {limit: string , offset: string}
 
         let LIMIT=10
@@ -158,14 +159,16 @@ export const PrestacaoServicoController = {
         if (limit && parseInt(limit)> 0) LIMIT = parseInt(limit)
         if (offset && parseInt(offset) > 0) OFFSET = parseInt(offset)
 
-        const getAllPrestacaoServicosDetalhadaResponse = await PrestacaoServicoModel.getAllPrestacaoServicoDetalhada(LIMIT, OFFSET)
+        const getAllPrestacaoServicosDetalhadaResponse: PrestacaoServicoDetalhadaType[] | null= await PrestacaoServicoModel.getAllPrestacaoServicoDetalhada(LIMIT, OFFSET)
 
         if (!getAllPrestacaoServicosDetalhadaResponse) {
-            return res.status(500).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Erro ao buscar prestacoes de servico detalhadas",
                 data: null
-            })
+            }
+            return res.status(500).json(response)
+
         }
 
         return res.status(200).json({
@@ -175,8 +178,8 @@ export const PrestacaoServicoController = {
         })
     },
     async getAllPrestacaoServicoByCategoria(req: Request, res: Response) {
-        const { categoria, limit, offset } = req.query as {
-            categoria?: string
+const { categoria } = req.params
+        const {limit, offset } = req.query as {
             limit?: string
             offset?: string
         }
@@ -184,11 +187,8 @@ export const PrestacaoServicoController = {
         let LIMIT = 10
         let OFFSET = 0
 
-        const parsedLimit = parseInt(limit as string)
-        const parsedOffset = parseInt(offset as string)
-
-        if (!isNaN(parsedLimit) && parsedLimit > 0) LIMIT = parsedLimit
-        if (!isNaN(parsedOffset) && parsedOffset >= 0) OFFSET = parsedOffset
+        if (limit && parseInt(limit) > 0) LIMIT = parseInt(limit)
+        if (offset && parseInt(offset) > 0) OFFSET = parseInt(offset)
 
         if (!categoria) {
             return res.status(400).json({
@@ -198,14 +198,23 @@ export const PrestacaoServicoController = {
             })
         }
 
-        const result = await PrestacaoServicoModel.getByCategoria(categoria, LIMIT, OFFSET)
+        const getAllPrestacaoServicoByCategoriaResponse: PrestacaoServicoDetalhadaType[] | null = await PrestacaoServicoModel.getByCategoria(categoria as string, LIMIT, OFFSET)
+
+        if (!getAllPrestacaoServicoByCategoriaResponse) {
+            const response: ResponseType<null> = { 
+                status: "error",
+                message: "Erro ao buscar prestacoes de servico por categoria",
+                data: null
+            }
+            return res.status(500).json(response)
+        }
 
         return res.status(200).json({
             status: "success",
             message: "Prestacoes encontradas",
-            data: result
+            data: getAllPrestacaoServicoByCategoriaResponse
         })
 
-  
+
 }
 }

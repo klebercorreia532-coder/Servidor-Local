@@ -174,3 +174,49 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/responseErro"
+  /prestacaoservico/get-by-categoria/{categoria}:
+    get:
+      summary: Buscar prestações de serviço por categoria
+      tags:
+        - Prestações de Serviços
+      description: Retorna uma lista de prestações de serviço que pertencem a uma categoria específica.
+      parameters:
+        - name: categoria
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "1"
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: string
+          example: "10"
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Lista de prestações de serviço por categoria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/prestacaoServicoDetalhada"
+
+        "404":
+          description: dados de prestacão de serviço por categoria não encontrados
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"
+        "500":
+          description: Erro ao buscar prestações de serviço por categoria
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"

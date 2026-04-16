@@ -40,8 +40,13 @@ export const PropostaModel = {
     async get(id: string) : Promise<PropostaDBType | null> {
         try {
             const [rows] = await db.execute<PropostaDBType[] & RowDataPacket[]>(
-                `SELECT * FROM tbl_propostas 
-                WHERE tbl_propostas.id = ?`,
+                `SELECT DISTINCT 
+                pt.*,
+                pr.id as owner
+                FROM tbl_propostas pt
+                INNER JOIN tbl_prestadores pr ON pt.id_prestador = pr.id
+                INNER JOIN tbl_utilizadores u ON pr.id_utilizador = u.id
+                WHERE pt.id = ?`,
 
                 [id]
             )

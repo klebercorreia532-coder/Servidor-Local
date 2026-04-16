@@ -1,13 +1,13 @@
 import type { RowDataPacket } from "mysql2"
 import db from "../lib/db.js"
-import type { PrestacaoServicoDBType,PrestacaoServicoDetalhadaType } from "../utils/types.js"
+import type { PrestacaoServicoDBType, PrestacaoServicoDetalhadaType } from "../utils/types.js"
 import { generateUUID } from "../utils/uuid.js"
 
 
 export const PrestacaoServicoModel = {
     async create(prestacaoServico: PrestacaoServicoDBType): Promise<PrestacaoServicoDBType | null> {
         try {
-            const [rows] = await db.execute <PrestacaoServicoDBType & RowDataPacket[]>(
+            const [rows] = await db.execute<PrestacaoServicoDBType & RowDataPacket[]>(
                 `INSERT INTO tbl_prestacao_servico 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 
@@ -26,7 +26,7 @@ export const PrestacaoServicoModel = {
                     new Date()
                 ]
             )
-            
+
             return rows as PrestacaoServicoDBType
         } catch (err) {
             console.log(err)
@@ -96,7 +96,7 @@ export const PrestacaoServicoModel = {
         }
     },
 
-    async delete(id: string) : Promise<PrestacaoServicoDBType | null> {
+    async delete(id: string): Promise<PrestacaoServicoDBType | null> {
         try {
             const rows: any = await db.execute<PrestacaoServicoDBType[] & RowDataPacket[]>(
                 `DELETE FROM tbl_prestacao_servico 
@@ -146,42 +146,59 @@ export const PrestacaoServicoModel = {
                 LIMIT ? OFFSET ?`
 
             const [rows] = await db.execute<PrestacaoServicoDetalhadaType[] & RowDataPacket[]>(
-                query, 
+                query,
                 [
                     limit.toString(),
                     offset.toString()
                 ]
             )
-                
+
             if (Array.isArray(rows) && rows.length === 0) return null
             return Array.isArray(rows) ? rows as PrestacaoServicoDetalhadaType[] : null
 
         }
-        
+
         catch (err) {
             console.log(err)
             return null
         }
-},
-async getByCategoria(categoria: string, limit: number, offset: number) {
-    try{
-        const query=
-        `SELECT 
+    },
+    async getByCategoria(idCategoria: string, limit: number, offset: number) {
+        try {
+            const query = `
+        SELECT 
         ps.id as id_prestacao_servico,
         ps.designacao as designacao,
-        u.nome as nome_utilizador,
-        u.email as email_utilizador,
-        s.nome as nome_servico,
-        c.
+        u.nome as nome_servico,
+        c.designacao as nome_categoria,
+        c.icone as icone_categoria,
         ps.created_at as data_pedido,
-        ps.urgencia as urgencia
+        ps.urgencia 
         FROM tbl_prestacao_servico ps
-        INNER JOIN tbl_servicos s ON ps.id_servico = c.id
-        INNER JOIN tbl_utilizadores u ON ps.id_utilizador = u.id
-        WHERE s.categoria = ?`
-          
+        INNER JOIN tbl_categorias c ON c.id = s.id_categoria AND c.id=?
+        INNER JOIN tbl_servicos s ON ps.id_servico = s.id
+        WHERE c.designacao = ?
+        ORDER BY ps.created_at DESC
+        LIMIT ? OFFSET ?`
 
-    }
+            const [rows] = await db.execute<PrestacaoServicoDetalhadaType[] & RowDataPacket[]>(
+                query,
+                [
+                    idCategoria,
+                    limit.toString(),
+                    offset.toString()
+                ]
+            )
 
+            if (Array.isArray(rows) && rows.length === 0) return null
+            return Array.isArray(rows) ? rows as PrestacaoServicoDetalhadaType[] : null
+
+        }
+
+        catch (err) {
+            console.log(err)
+            return null     
+
+        }
 }
 }
