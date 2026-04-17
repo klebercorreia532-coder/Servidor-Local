@@ -1,0 +1,145 @@
+# paths/empresa.yaml
+
+paths:
+  /empresas:  
+    get:
+      summary: Listar todas as empresas
+      tags:
+        - Empresas
+      description: Retorna a lista de todas as empresas disponíveis
+      responses:
+        "200":
+          description: Lista de empresas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/empresa"
+
+        "404":
+          description: Nenhuma empresa encontrada 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"
+
+  /empresas/create:
+    post:
+      summary: Criar uma nova empresa
+      tags:
+        - Empresas
+      description: Criar uma nova empresa 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateEmpresa"
+      responses:
+        "200":
+          description: Empresa criada com sucesso   
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseSucesso"
+        "400":    
+          description: Dados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"
+  /empresas/get-by-id/{id}:
+    get:  
+      summary: Buscar uma empresa por ID
+      tags:
+        - Empresas
+      description: Retorna uma empresa específica pelo ID   
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da empresa
+          schema:
+            type: string
+            example: "1"  
+      responses:
+        "200":
+          description: Empresa encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/empresa"  
+        "404":
+          description: Empresa não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"   
+  /empresas/update/{id}:
+    put:  
+      summary: Atualizar uma empresa
+      tags:
+        - Empresas
+      description: Atualiza uma empresa existente pelo ID   
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da empresa a ser atualizada
+          schema:
+            type: string
+            example: "1"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/ components/schemas/CreateEmpresa"
+      responses:  
+        "200":
+          description: Empresa atualizada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseSucesso"
+        "400":
+          description: Dados inválidos      
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro" 
+        "404":
+          description: Empresa não encontrada
+          content:   
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro" 
+  /empresas/delete/{id}:
+    delete: 
+      summary: Deletar uma empresa
+      tags:
+        - Empresas
+      description: Deleta uma empresa existente pelo ID 
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da empresa a ser deletada
+          schema:
+            type: string
+            example: "1"
+      responses:
+        "200":
+          description: Empresa deletada com sucesso   
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseSucesso"
+        "404":
+          description: Empresa não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"
+

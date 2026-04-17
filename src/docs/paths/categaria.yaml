@@ -1,0 +1,118 @@
+# Paths/Categoria.yaml
+
+paths:
+  /categorias:
+    get:
+      summary: Listar todas as categorias
+      tags:
+        - Categorias
+      description: Retorna a lista de todas as categorias disponíveis
+      responses:
+        "200":
+          description: Lista de categorias
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/categoria"  
+        "404":
+          description: Nenhuma categoria encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"
+
+  /categorias/create:
+    post:
+      summary: Criar uma nova categoria
+      tags:
+        - Categorias
+      description: Criar uma nova categoria
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCategoria"
+      responses:
+        "200":
+          description: Categoria criada com sucesso   
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseSucesso"
+        "400":
+          description: Dados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro" 
+
+  /categorias/update/{id}:
+    put:
+      summary: Atualizar uma categoria
+      tags:
+        - Categorias
+      description: Atualiza uma categoria existente pelo ID   
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da categoria a ser atualizada
+          schema:
+            type: string
+            example: "1"  
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateCategoria"
+      responses:
+        "200":
+          description: Categoria atualizada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseSucesso"  
+        "400":
+          description: Dados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"
+        "404":
+          description: Categoria não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"
+
+  /categorias/delete/{id}:
+    delete:   
+      summary: Deletar uma categoria
+      tags:
+        - Categorias
+      description: Deleta uma categoria existente pelo ID   
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da categoria a ser deletada
+          schema:
+            type: string
+            example: "1"  
+      responses:
+        "200":
+          description: Categoria deletada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseSucesso"  
+        "404":
+          description: Categoria não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseErro"

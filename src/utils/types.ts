@@ -105,6 +105,7 @@ export interface  PropostaDBType {
     preco_hora: number
     hora_estimadas: number
     estado: "pendente" | "aceito" | "recusado"
+    owner ?: string
     enabled: number
     created_at: Date
     updated_at: Date
@@ -198,4 +199,4 @@ export interface CategoriaType {
 export interface PrestadorServiceCategoriaType {
     id_prestaCao_servico: string;
     designacao: string;
-    
+

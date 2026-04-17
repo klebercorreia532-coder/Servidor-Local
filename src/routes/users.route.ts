@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { UserController } from "../controllers/users.controller.js";
-import  authMiddleware, {authorize}  from "../security/auth.middleware.js";
+import  authMiddleware, {authorize, isOwner}  from "../security/auth.middleware.js";
 import { Role } from "../utils/types.js";
+import { UserModel } from "../models/users.model.js";
 
 
 const userRouter = {
@@ -24,9 +25,9 @@ router.use(authMiddleware)
 
 router.put(userRouter.resetPassword, authorize([Role.ADMIN, Role.CLIENTE, Role.PRESTADOR, Role.EMPRESA]), UserController.resetPassword)
 router.get(userRouter.getById, authorize([Role.ADMIN, Role.CLIENTE, Role.PRESTADOR, Role.EMPRESA]), UserController.getById)
-router.put(userRouter.update, authorize([Role.ADMIN, Role.CLIENTE, Role.PRESTADOR, Role.EMPRESA]), UserController.update)
+router.put(userRouter.update, authorize([Role.ADMIN, Role.CLIENTE, Role.PRESTADOR, Role.EMPRESA]), isOwner(UserModel, "id"), UserController.update)
 router.get(userRouter.getAll, authorize([Role.ADMIN]), UserController.getAll)
-router.delete(userRouter.delete, authorize([Role.ADMIN]), UserController.delete)
+router.delete(userRouter.delete, authorize([Role.ADMIN]), isOwner(UserModel, "id"), UserController.delete)
 
 export { router }
 

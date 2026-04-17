@@ -1,6 +1,5 @@
 
 
-import { id } from "date-fns/locale/id"
 import db from "../lib/db.js"
 import type { OrcamentoDBType } from "../utils/types.js"
 import { generateUUID } from "../utils/uuid.js"
@@ -75,8 +74,7 @@ export const OrcamentoModel = {
                     id
                 ]
             )
-            console.log({ rows })
-            return rows
+            return rows as OrcamentoDBType
         } catch (err) {
             console.log(err)
             return null

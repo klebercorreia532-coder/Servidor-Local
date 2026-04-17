@@ -1,0 +1,99 @@
+# schemas/empresa.yaml
+
+components:
+  schemas:
+
+    empresa:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "27acc54f-57cd-4b37-8c4a-be0a7bb5b3ac"
+        nif:
+          type: string
+          example: "143759005"  
+        nome:
+          type: string
+          example: "Construtora ABC"
+        email:
+          type: string
+          example: "  
+        telefone:
+          type: string
+          example:
+            "+351912345678"
+        morada:
+          type: string
+          example: "Rua da Construção, 123" 
+        enabled:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time 
+          example: "2026-03-11T10:01:12.000Z"
+        updated_at:
+          type: string
+          format: date-time 
+          example: "2026-03-11T10:01:12.000Z"
+
+    # schema para criar uma nova empresa
+    CreateEmpresa:  
+      type: object
+      properties:
+        nif:
+          type: string
+          example: "143759005"  
+        nome:
+          type: string
+          example: "Construtora ABC"
+        email:
+          type: string
+          example: "contato@construtoraabc.com" 
+        telefone:
+          type: string  
+          example: "+351912345678"
+        morada:
+          type: string
+          example: "Rua da Construção, 123" 
+        enabled:
+          type: boolean
+          example: true 
+      required:
+        - nif
+        - nome
+        - email
+        - telefone
+        - morada
+        - enabled
+
+    # schema para atualizar uma empresa
+    UpdateEmpresa:  
+      type: object
+      properties:
+        nif:
+          type: string
+          example: "143759005"
+        nome:
+          type: string
+          example: "Construtora ABC"
+        email:
+          type: string  
+          example: "contato@construtoraabc.com"
+        telefone:
+          type: string
+          example: "+351912345678"
+        morada:
+          type: string
+          example: "Rua da Construção, 123" 
+        enabled:
+          type: boolean
+          example: true 
+      required:
+        - nif   
+        - nome
+        - email 
+        - telefone
+        - morada
+        - enabled 
+      
