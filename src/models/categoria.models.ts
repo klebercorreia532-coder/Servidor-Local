@@ -31,11 +31,12 @@ export const CategoriaModel = {
         }
     },
 
-    async getAll(): Promise<CategoriaType[] | null> {
-        const [rows] = await db.execute<CategoriaType[] & RowDataPacket[]>
-            ("SELECT * FROM tbl_categorias")
-
+    async getAll(): Promise<CategoriaType | null> {
+        const [rows] = await db.execute<CategoriaType[] & RowDataPacket[]>(
+            `SELECT * FROM tbl_categorias`
+ )
         return rows as CategoriaType[]
+       
     },
 
     async get(id: string): Promise<CategoriaType | null> {
