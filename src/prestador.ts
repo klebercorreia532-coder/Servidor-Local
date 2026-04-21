@@ -5,10 +5,10 @@ export async function insertPrestador(prestador: PrestadorType) {
     const {
         nome,
         precoHora,
-        propfissao,
-        minimoDesconto,
-        percentagemDesconto,
-        taxaUrgencia
+        profissao,
+        minimo_desconto,
+        percentagem_desconto,
+        taxa_urgencia
     } = prestador;
 
     const sql = `
@@ -19,10 +19,10 @@ export async function insertPrestador(prestador: PrestadorType) {
     const values = [
         nome,
         precoHora,
-        propfissao,
-        minimoDesconto,
-        percentagemDesconto,
-        taxaUrgencia
+        profissao,
+        minimo_desconto,
+        percentagem_desconto,
+        taxa_urgencia
     ];
 
     const [result] = await db.execute(sql, values);

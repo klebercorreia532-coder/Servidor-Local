@@ -1,7 +1,7 @@
 
 import db from "./lib/db.js";
 import { catalogarServicos } from "./servico.js";
-import { type ServicoType, type PedidoServico, type PrestadorType, type prestadoresDeServico } from "./utils/types.js";
+import { type ServicoType,type PedidoSevicoType ,type PrestadorType,  } from "./utils/types.js";
 
 
 const taxaUrgencia: number = 0.2;
@@ -85,10 +85,10 @@ export function editarPrestadoresDeServico(nomeDoPrestador: string, novoDadosDoP
         if (prestadorExistente.nome === nomeDoPrestador) {
             prestadorExistente.nome = novoDadosDoPrestador.nome
             prestadorExistente.precoHora = novoDadosDoPrestador.precoHora
-            prestadorExistente.propfissao = novoDadosDoPrestador.propfissao
-            prestadorExistente.minimoDesconto = novoDadosDoPrestador.minimoDesconto
+            prestadorExistente.profissao = novoDadosDoPrestador.profissao
+            prestadorExistente.minimo_desconto = novoDadosDoPrestador.minimo_desconto
             prestadorExistente.percentagemDesconto = novoDadosDoPrestador.percentagemDesconto
-            prestadorExistente.taxaUrgencia = novoDadosDoPrestador.taxaUrgencia
+            prestadorExistente.taxa_urgencia = novoDadosDoPrestador.taxa_urgencia
 
             return {
                 status: true,
@@ -136,7 +136,7 @@ export function apagarPrestadorDeServico(nomeDoPrestador: string) {
 
 
 // Funcao para calcular orcamento
-export function calcularOrcamento(pedido: PedidoServico) {
+export function calcularOrcamento(pedido: PedidoSevicoType ) {
     let totalBruto: number = 0;
     let totalFinal: number = 0;
 

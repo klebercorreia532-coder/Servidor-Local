@@ -23,7 +23,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?)
         const values = [
             proposta.id_prestacao_servico,
             proposta.preco_hora,
-            proposta.hora_estimadas,
+            proposta.horas_estimadas,
             proposta.estado,
             proposta.enabled,
             proposta.created_at,
