@@ -7,7 +7,7 @@ import { generateUUID } from "../utils/uuid.js"
 export const PrestadorModel = {
     async create(prestador: PrestadorDBType) {
         try {
-            const [rows] = await db.execute(
+            const [rows] = await db.execute<PrestadorDBType & RowDataPacket[]>(
                 `INSERT INTO tbl_prestadores 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 
@@ -23,8 +23,8 @@ export const PrestadorModel = {
                     new Date()
                 ]
             )
-            console.log({ rows })
-            return rows
+        
+            return rows as PrestadorDBType
         } catch (err) {
             console.log(err)
             return null
@@ -57,7 +57,7 @@ export const PrestadorModel = {
 
     async update(id: string, prestador: PrestadorDBType) {
         try {
-            const [rows] = await db.execute(
+            const [rows] = await db.execute<PrestadorDBType & RowDataPacket[]>(
                 `UPDATE tbl_prestadores 
                 SET taxa_urgencia = ?, 
                 percentagem_desconto = ?, 
@@ -79,8 +79,9 @@ export const PrestadorModel = {
                     id
                 ]
             )
-            console.log({ rows })
-            return rows
+
+            return rows as PrestadorDBType
+
         } catch (err) {
             console.log(err)
             return null

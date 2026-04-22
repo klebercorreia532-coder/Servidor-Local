@@ -14,7 +14,7 @@ export const ServiceModel = {
             const values = [
                 null,
                 newService.nome,
-                newService.discricao,
+                newService.descricao,
                 newService.categoria,
                 newService.enabled,
                 new Date(),
@@ -78,16 +78,16 @@ export const ServiceModel = {
 
             const values = [
                 servicoAtualizado.nome,
-                servicoAtualizado.discricao,
+                servicoAtualizado.descricao,
                 servicoAtualizado.categoria,
                 servicoAtualizado.enabled,
                 new Date(),
                 id
             ]
 
-            const rows = await db.execute(query, values)
+            const [rows] = await db.execute<ServicoDBType & RowDataPacket[]>(query, values)
 
-            return rows
+            return rows 
         } catch (error) {
             console.log(error)
             return null

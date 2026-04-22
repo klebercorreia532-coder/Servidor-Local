@@ -112,7 +112,7 @@ export const servicoController = {
             })
         }
 
-        const updateServiceResponse = await serviceModel.update(id as string, updatedService)
+        const updateServiceResponse: ServicoDBType | null= await serviceModel.update(id as string, updatedService)
 
         if (!updateServiceResponse) {
             return res.status(400).json({
@@ -140,14 +140,14 @@ export const servicoController = {
             })
         }
 
-        const deleteServiceResponse = await serviceModel.delete(id as string)
+        const deleteServiceResponse: ServicoDBType | null= await serviceModel.delete(id as string)
 
         if (!deleteServiceResponse) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Erro ao apagar servico",
                 data: null
-            })
+            }
         }
 
         res.status(200).json({

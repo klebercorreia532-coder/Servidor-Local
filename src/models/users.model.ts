@@ -80,7 +80,7 @@ export const UserModel = {
     // update user
     async update(id: string, user: UserType) {
         try {
-            const [rows] = await db.execute(
+            const [rows] = await db.execute<UserType[] & RowDataPacket[]>(
                 `UPDATE tbl_utilizadores 
                 SET nome = ?, 
                 numero_identificacao = ?, 
@@ -107,27 +107,41 @@ export const UserModel = {
                     id
                 ]
             )
-            console.log({ rows })
+
+
             return rows
         } catch (err) {
             console.log(err)
             return null
         }
     },
-    // delete user
-    async delete(id: string) {
-        try {
-            const rows: any = await db.execute<RowDataPacket[]>(
-                `DELETE FROM tbl_utilizadores 
-                WHERE id = ?`,
+async resetPassword(id: string, password: string) {
+    try {
+        const hashed = await hashPassword(password);
 
-                [id]
-            )
+        const [result] = await db.execute(
+            `UPDATE tbl_utilizadores SET password = ? WHERE id = ?`,
+            [hashed, id]
+        );
 
-            return rows[0].affectedRows === 0 ? null : rows[0]
-        } catch (err) {
-            console.log(err)
-            return null
-        }
+        return result;
+    } catch (error) {
+        console.error(error);
+        return null;
     }
+},
+    // delete user
+    async delete(id: string): Promise<UserType | null>{
+    try {
+        const [rows] = await db.execute<UserType & RowDataPacket[]>(
+            `DELETE FROM tbl_utilizadores WHERE id = ?`,
+            [id]
+        );
+
+        return (rows as any).affectedRows === 0 ? null : rows;
+    } catch (err) {
+        console.log(err);
+        return null;
+    }
+}, 
 } 

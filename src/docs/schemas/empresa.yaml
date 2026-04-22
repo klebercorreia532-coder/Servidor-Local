@@ -17,11 +17,10 @@ components:
           example: "Construtora ABC"
         email:
           type: string
-          example: "  
+          example: "contato@construtoraabc.com"
         telefone:
           type: string
-          example:
-            "+351912345678"
+          example: "+351912345678"
         morada:
           type: string
           example: "Rua da Construção, 123" 

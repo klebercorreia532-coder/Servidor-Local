@@ -1,10 +1,11 @@
 
 
 import type { Request, Response } from "express"
-import type { ResponseType, UserType } from "../utils/types.js"
+import type {ResponseType, UserType } from "../utils/types.js"
 import { UserModel } from "../models/users.model.js"
-import { comparePasswoerd } from "../utils/password.js"
+// import { comparePasswoerd} from "../utils/password.js"
 import jwt from "jsonwebtoken"
+import { comparePassword } from "../utils/password.js"
 
 export const UserController = {
     async create(req: Request, res: Response) {
@@ -20,7 +21,7 @@ export const UserController = {
 
         console.log(user)
 
-        const createUserResponse = await UserModel.create(user)
+        const createUserResponse= await UserModel.create(user)
 
         res.json(createUserResponse)
     },
@@ -131,7 +132,7 @@ export const UserController = {
             })
         }
 
-        const isPasswordValid = await comparePasswoerd(password, userData.password)
+        const isPasswordValid = await comparePassword(password, userData.password)
         if (!isPasswordValid) {
             return res.status(401).json({
                 status: "error",
@@ -220,18 +221,19 @@ export const UserController = {
         const { id } = req.params
 
         if (!id) {
-            const response: ResponseType<null> = {
+            return res.status(400).json({
                 status: "error",
                 message: "ID obrigatorio",
                 data: null
-            }
-            return res.status(400).json(response)
+            })
+            
+            
         }
 
         const deleteUserResponse: UserType | null = await UserModel.delete(id as string)
 
         if (!deleteUserResponse) {
-            const response: ResponseType<null> = {
+            const response:ResponseType<null> = {
                 status: "error",
                 message: "Erro ao apagar utilizador",
                 data: null

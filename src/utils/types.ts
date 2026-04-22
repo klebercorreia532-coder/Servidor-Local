@@ -47,11 +47,11 @@ export interface ServicoType {
     percentagemDeconto: number
 }
 
-export interface ResponseType {
-    status: boolean,
-    message: string,
-    data: ServicoType | null,
-}
+// export interface ResponseType {
+//     status: boolean,
+//     message: string,
+//     data: ServicoType | null,
+// }
 
 export interface PrestadorType {
     nome: string;
@@ -112,7 +112,7 @@ export interface ListaServicoType {
     update_at:string
 }
 
-export interface ServiceDBType {
+export interface ServicoDBType {
     prescentagem_desconto: any;
     minimo_desconto: any;
     taxa_urgencia: any;
@@ -185,15 +185,16 @@ export interface PropostaDBType {
 export interface PrestacaoServicoDBType {
     id:string,
     designacao:string,
-    subtorial:string,
+    subtotal:string,
     horas_estimadas:number,
-    id_prestadores:string,
+    id_prestador:string,
     id_orcamento:string,
     id_utilizador: string,
     id_servico:string,
     id_empresa:string,
     tipo_prestador: TipoPrestador,
     preco_hora:number,
+    estado: EstadoPrestacaoServico,
     urgente:boolean,
     enabled:boolean,
     created_at:string,
@@ -201,7 +202,7 @@ export interface PrestacaoServicoDBType {
 
 }
 
-export interface responseType <T> {
+export interface ResponseType <T> {
     status: "success" | "error",
     message: string,
     data: T | null
@@ -217,7 +218,7 @@ export interface PrestacaoServicoDetalhoadaType {
     urgente: boolean
 }
 
-export interface ServicoDetalhadoType {
+export interface ServicoDetalhadaType {
     id: string,
     nome: string,
     descricao: string,
@@ -228,8 +229,10 @@ export interface ServicoDetalhadoType {
 }
 export interface CategoriaDBType {
     id: string,
+    nome: string,
     designacao: string,
     icone: string,
+    enabled: boolean,
     created_at: string,
     updated_at: string
 }

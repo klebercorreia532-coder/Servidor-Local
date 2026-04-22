@@ -77,8 +77,9 @@ export const PropostaController = {
                 }
                 return res.status(400).json(response)
             }
-            
-            if (!propostaResponse) {
+        const updatePropostaResponse= await PropostaModel.update(id as string, propostaData)
+
+            if (!updatePropostaResponse) {
                 const response : ResponseType<null> = {
                     status: "error",
                     message: "Erro ao atualizar proposta",

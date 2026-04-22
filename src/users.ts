@@ -1,7 +1,7 @@
 import db from "./lib/db.js";
 import { formatDateDDMMYYYY } from "./utils/date.js";
 import { hashPassword } from "./utils/password.js";
-import type { UserServiceType, UserType } from "./utils/types.js";
+import type { UserType } from "./utils/types.js";
 import { generateUUID } from "./utils/uuid.js";
 
 export async function getUsers() {

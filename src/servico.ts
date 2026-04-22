@@ -1,17 +1,18 @@
 import { error } from "node:console";
 import db from "./lib/db.js";
-import { type Responsetype, type ServicoDBType, type ServicoType } from "./utils/types.js";
+import {type ResponseType, type ServicoDBType, type ServicoType } from "./utils/types.js";
+
 export let catalogarServicos: ServicoType[] = [];
 
 
 
 // adicionar um  serniso novo
-export function adicionarServico(novoServico: ServicoType): Responsetype {
+export function adicionarServico(novoServico: ServicoType): ResponseType<ServicoType>{
     {
         if (!novoServico.nome || novoServico.precoHora <= 0) {
             return {
-                status: false,
-                mensagem: "preço deve ser maior que zero.",
+                status: "error",
+                message: "preço deve ser maior que zero.",
                 data: null
             };
         }
@@ -26,8 +27,8 @@ export function adicionarServico(novoServico: ServicoType): Responsetype {
 
         if (existe) {
             return {
-                status: false,
-                mensagem: `Erro: O serviço '${novoServico.nome}' já está cadastrado.`,
+                status:"success",
+                message: `Erro: O serviço '${novoServico.nome}' já está cadastrado.`,
                 data: null
             };
         }
@@ -37,8 +38,8 @@ export function adicionarServico(novoServico: ServicoType): Responsetype {
 
 
         return {
-            status: true,
-            mensagem: "Serviço adicionado com sucesso!",
+            status:"success",
+            message: "Serviço adicionado com sucesso!",
             data: novoServico
         };
     };
@@ -121,7 +122,7 @@ export async function addServicesToDB(newService: ServicoDBType) {
             [
                 null,
                 newService.nome,
-                newService.discricao,
+                newService.descricao,
                 newService.categoria,
                 newService.enabled,
                 new Date(),
@@ -182,7 +183,7 @@ export async function updateService(id: string, updateService: ServicoDBType) {
 
         const values = [
             updateService.nome,
-            updateService.discricao,
+            updateService.descricao,
             updateService.categoria,
             updateService.enabled,
             new Date(),

@@ -1,6 +1,8 @@
+
+// import { getPrestadorById } from "../../models/prestador.models.js";
 import { PrestadorModel } from "../../models/prestador.models.js";
 import type { PrestadorDBType,} from "../../utils/types.js";
-import {getPrestadorById} from "../../users.js"
+
 
 
 
@@ -8,11 +10,11 @@ import {getPrestadorById} from "../../users.js"
 export const prestadorResolvers = {
     Query: {
         getAllPrestadores: async () => {
-            return await prestadorModel.getAll();
+            return await PrestadorModel.getAll();
 
         },
         getPrestadorById: async (_: any, args: { id: string }) => {
-            return await getPrestadorById(args.id);
+            return await PrestadorModel.get(args.id);
         }
 
     },

@@ -1,6 +1,6 @@
 import type { RowDataPacket } from "mysql2"
 import db from "../lib/db.js"
-import type { PrestacaoServicoDBType, PrestacaoServicoDetalhadaType } from "../utils/types.js"
+import type { PrestacaoServicoDBType, PrestacaoServicoDetalhoadaType } from "../utils/types.js"
 import { generateUUID } from "../utils/uuid.js"
 
 
@@ -145,7 +145,7 @@ export const PrestacaoServicoModel = {
                 ORDER BY ps.created_at DESC;
                 LIMIT ? OFFSET ?`
 
-            const [rows] = await db.execute<PrestacaoServicoDetalhadaType[] & RowDataPacket[]>(
+            const [rows] = await db.execute<PrestacaoServicoDetalhoadaType[] & RowDataPacket[]>(
                 query,
                 [
                     limit.toString(),
@@ -154,7 +154,7 @@ export const PrestacaoServicoModel = {
             )
 
             if (Array.isArray(rows) && rows.length === 0) return null
-            return Array.isArray(rows) ? rows as PrestacaoServicoDetalhadaType[] : null
+            return Array.isArray(rows) ? rows as PrestacaoServicoDetalhoadaType[] : null
 
         }
 
@@ -181,7 +181,7 @@ export const PrestacaoServicoModel = {
         ORDER BY ps.created_at DESC
         LIMIT ? OFFSET ?`
 
-            const [rows] = await db.execute<PrestacaoServicoDetalhadaType[] & RowDataPacket[]>(
+            const [rows] = await db.execute<PrestacaoServicoDetalhoadaType[] & RowDataPacket[]>(
                 query,
                 [
                     idCategoria,
@@ -191,7 +191,7 @@ export const PrestacaoServicoModel = {
             )
 
             if (Array.isArray(rows) && rows.length === 0) return null
-            return Array.isArray(rows) ? rows as PrestacaoServicoDetalhadaType[] : null
+            return Array.isArray(rows) ? rows as PrestacaoServicoDetalhoadaType[] : null
 
         }
 
