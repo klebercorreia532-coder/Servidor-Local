@@ -1,29 +1,38 @@
-import { get } from "node:http";
-import { getAllServices, getServicesById} from "../../servico.js";
-import { PrestadorModel } from "../../models/prestador.models.js";
-import type { PrestadorDBType } from "../../utils/types.js";
+import { CategoriaModel } from "../../models/categoria.models.js";
+import { PrestacaoServicoModel } from "../../models/prestacaoservico.models.js";
+import { ServiceModel } from "../../models/servico.models.js";
 
-
-export const servicoResolvel= {
+export const servicoResolvel = {
     Query: {
         getAllServices: async () => {
-            return await getAllServices();
+            return await ServiceModel.getAll();
         },
-        getServicesById: async (_: any, args: { id: string }) => {
-            return await getServicesById(args.id);
-        
-    }
 
-},
-Mutation:{
-    createService: async (_: any, args: { service: PrestadorDBType }) => {
-        return await PrestadorModel.create(args.service);
+        getServicesById: async (_: any, args: { id: string }) => {
+            return await ServiceModel.get(args.id);
+        }
     },
-    updateService: async (_: any, args: { id: string, service: PrestadorDBType }) => {
-        return await PrestadorModel.update(args.id, args.service);
+
+    Mutation: {
+        createService: async (_: any, args: any) => {
+            return await ServiceModel.create(args.service);
+        },
+
+        updateService: async (_: any, args: any) => {
+            return await ServiceModel.update(args.id, args.service);
+        },
+
+        deleteService: async (_: any, args: any) => {
+            return await ServiceModel.delete(args.id);
+        },
     },
-    deleteService: async (_: any, args: { id: string }) => {
-        return await PrestadorModel.delete(args.id);
+    Servico: {
+        categoria: async (parent: any) => {
+            return await CategoriaModel.get(parent.id_categoria);
+        },
+
+        PrestacaoServico: async (parent: any) => {
+            return await PrestacaoServicoModel.get(parent.id);
+        }
     }
-}
-    }
+};

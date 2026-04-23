@@ -1,4 +1,5 @@
 import { CategoriaModel } from "../../models/categoria.models.js";
+import { ServiceModel } from "../../models/servico.models.js";
 import type { CategoriaDBType } from "../../utils/types.js";
 
 
@@ -22,5 +23,11 @@ export const categoriaResolvers = {
         deleteCategoria: async (_: any, args: { id: string }) => {
             return await CategoriaModel.delete(args.id);
         }
+    },
+    categoria: {
+        Service: async (parent: { id: string }) => {
+                    return await ServiceModel.get(parent.id);
+        
+                },
     }
-    }
+}

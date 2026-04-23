@@ -120,6 +120,7 @@ export interface ServicoDBType {
     nif: any;
     disponivel: any;
     id:string,
+    id_categoria:string,
     nome:string,
     descricao:string,
     categoria:string,
@@ -134,6 +135,8 @@ export interface PrestadorDBType {
     profissao:string,
     taxa_urgencia:number,
     minimo_desconto:number,
+    id_empresa:string,
+    id_utilizador:string,
     percentagem_desconto:number,
     disponivel:number,
     enabled:boolean,
@@ -163,7 +166,7 @@ export interface OrcamentoDBType {
     id_prestacao_servico: any;
     id:string,
     total:number,
-    id_utilizador2:string,
+    id_utilizador:string,
     enabled:boolean,
     created_at:string,
     update_at:string
@@ -172,7 +175,7 @@ export interface OrcamentoDBType {
 export interface PropostaDBType {
     id:string,
     id_prestacao_servico:string,
-    idPrestador:string,
+    id_Prestador:string,
     preco_hora:number,
     horas_estimadas:number,
     estado: EstadoProposta,

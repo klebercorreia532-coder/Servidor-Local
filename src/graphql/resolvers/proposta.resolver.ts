@@ -1,6 +1,8 @@
 
+import { PrestacaoServicoModel } from "../../models/prestacaoservico.models.js";
 import { PropostaModel } from "../../models/proposta.models.js";
 import type { PropostaDBType } from "../../utils/types.js";
+import { PrestacaoSevicoResolver } from "./prestaçaoservico.resolver.js";
 
 export const propostaResolver = {
     Query: {
@@ -25,5 +27,16 @@ export const propostaResolver = {
         deleteProposta: async (_: any, args: { id: string }) => {
             return await PropostaModel.delete(args.id);
         }
+    },
+    Proposta: {
+        prestador: async (parent: { id: string }) => {
+            return await PropostaModel.get(parent.id);
+        },
+        PrestacaoSevico: async (parent: { id: string }) => {
+            return await PrestacaoServicoModel.get(parent.id);
+        }
     }
+
+
+
 };

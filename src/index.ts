@@ -8,6 +8,9 @@ import { router as prestacaoServicoRouter } from "./routes/prestacaoservico.rout
 import {swaggerSpec} from "./docs/swagger.js"
 import swaggerUi from "swagger-ui-express"
 import dotenv from "dotenv"
+import { resolvers, typeDefs } from "./graphql/index.js";
+import { ApolloServer } from "@apollo/server";
+import { expressMiddleware } from "@as-integrations/express5";
 
 const app = express();
 
@@ -25,6 +28,17 @@ app.use("/prestacao-servico",  prestacaoServicoRouter)
 
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
+const graphqlServer = new ApolloServer({
+  typeDefs,
+  resolvers,
+});
+
+await graphqlServer.start()
+
+app.use("/graphql", expressMiddleware(graphqlServer, { context: async ({ req }) => ({  
+  Token: req.headers.authorization,
+}) })
+);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World");

@@ -195,7 +195,7 @@ export const OrcamentoController = {
         }
 
         //find accepted proposal
-        const propostaAceita: PropostaDBType | undefined = propostas.find((proposta) => proposta.estado === EstadoProposta.ACEITO);
+        const propostaAceita: PropostaDBType | undefined = propostas.find((proposta) => proposta.estado === EstadoProposta.ACEITE);
 
         if (!propostaAceita) {
             return res.status(400).json({
@@ -209,7 +209,7 @@ export const OrcamentoController = {
         const horasEstimadas = prestacaoServico.horas_estimadas;
 
         //fetch prestador to get urgenccy tax minima  discont percentague based on attrs in uttrs/types.ts
-        const prestador = await PrestadorModel.get(propostaAceita.id_prestador);
+        const prestador = await PrestadorModel.get(propostaAceita.id_Prestador);
 
         if (!prestador) {
             return res.status(404).json({
@@ -232,7 +232,7 @@ export const OrcamentoController = {
             subtotal = subtotal * (1 - percentagemDesconto)
         }
 
-        if (prestacaoServico.urgencia) {
+        if (prestacaoServico.urgente) {
             subtotal = subtotal * (1 + urgencyTax)
         }
 
