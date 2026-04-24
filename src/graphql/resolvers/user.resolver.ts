@@ -15,7 +15,7 @@ export const userResolvers = {
         },
 
         getUserById: async (_:any, args: {id:string}) => {
-            return await getUserById(args.id);
+            return await UserModel.get(args.id);
         }
     
         },

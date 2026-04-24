@@ -6,7 +6,7 @@ import type { CategoriaDBType } from "../../utils/types.js";
 
 export const categoriaResolvers = {
     Query: {
-        getAllCategorias: async () => {
+        getAllCategoria: async () => {
             return await CategoriaModel.getAll();
         },
         getCategoriaById: async (_: any, args: { id: string }) => {
@@ -17,7 +17,7 @@ export const categoriaResolvers = {
         createCategoria: async (_: any, args: { categoria: CategoriaDBType }) => {
             return await CategoriaModel.create(args.categoria);
         },
-        updatecategoria: async (_: any, args: { id: string, categoria: CategoriaDBType }) => {
+        updateCategoria: async (_: any, args: { id: string, categoria: CategoriaDBType }) => {
             return await CategoriaModel.update(args.id, args.categoria);
         },
         deleteCategoria: async (_: any, args: { id: string }) => {

@@ -1,6 +1,7 @@
 import { CategoriaModel } from "../../models/categoria.models.js";
 import { PrestacaoServicoModel } from "../../models/prestacaoservico.models.js";
 import { ServiceModel } from "../../models/servico.models.js";
+import type { ServicoDBType } from "../../utils/types.js";
 
 export const servicoResolvel = {
     Query: {
@@ -14,8 +15,17 @@ export const servicoResolvel = {
     },
 
     Mutation: {
-        createService: async (_: any, args: any) => {
-            return await ServiceModel.create(args.service);
+        createService: async (_: any, args: { nome: string, descricao: string, id_categoria: string, enabled: boolean}) => {
+            const service: ServicoDBType = {
+                id: "",
+                nome: args.nome,
+                descricao: args.descricao,
+                id_categoria: args.id_categoria,
+                enabled: args.enabled,
+                created_at: "",
+                updated_at: ""
+            } 
+            return await ServiceModel.create(service);
         },
 
         updateService: async (_: any, args: any) => {

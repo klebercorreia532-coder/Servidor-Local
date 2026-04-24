@@ -10,27 +10,27 @@ import type { PrestacaoServicoDBType } from "../../utils/types.js";
 
 export const PrestacaoSevicoResolver = {
     Query: {
-        getAllPrestacaoSevico: async () => {
+        getAllPrestacaoServico: async () => {
             return await PrestacaoServicoModel.getAll();
         },
 
-        getPrestacaoSevicoById: async (_: any, args: { id: string }) => {
+        getPrestacaoServicoById: async (_: any, args: { id: string }) => {
             return await PrestacaoServicoModel.get(args.id);
-        }
+        },
     },
 
     Mutation: {
-        createPrestacaoSevico: async (_: any, args: { proposta: PrestacaoServicoDBType }) => {
+        createPrestacaoServico: async (_: any, args: { proposta: PrestacaoServicoDBType }) => {
             return await PrestacaoServicoModel.create(args.proposta);
         },
 
-        updatePrestacaoSevico: async (_: any, args: { id: string, proposta: PrestacaoServicoDBType }) => {
+        updatePrestacaoServico: async (_: any, args: { id: string, proposta: PrestacaoServicoDBType }) => {
             return await PrestacaoServicoModel.update(args.id, args.proposta);
         },
 
-        deletePrestacaoSevico: async (_: any, args: { id: string }) => {
+        deletePrestacaoServico: async (_: any, args: { id: string }) => {
             return await PrestacaoServicoModel.delete(args.id);
-        }
+        },
     },
     PrestacaoServico: {
         prestador: async (parent: { id: string }) => {
@@ -45,14 +45,14 @@ export const PrestacaoSevicoResolver = {
             return await UserModel.get(parent.id);
 
         },
-        Service: async (parent: { id: string }) => {
+        Servico: async (parent: { id: string }) => {
             return await ServiceModel.get(parent.id);
 
         },
         empresa: async (parent: { id: string }) => {
             return await EmpresaModel.get(parent.id);
 
-        }
-    }
+        },
+    },
 
 }

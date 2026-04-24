@@ -288,6 +288,4 @@ input CategoriaInput {
   icone: String
 }
 
-
-
 `;

@@ -5,9 +5,9 @@ import type { EmpresaDBtype } from "../../utils/types.js";
 
 
 
-export const empresoResolver = {
+export const empresaResolver = {
     Query: {
-        getAllEmpresas: async () => {
+        getAllEmpresa: async () => {
             return await EmpresaModel.getAll();
         },
         getEmpresaById: async (_: any, args: { id: string }) => {

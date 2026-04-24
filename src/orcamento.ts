@@ -1,7 +1,7 @@
 
 import db from "./lib/db.js";
 import { catalogarServicos } from "./servico.js";
-import { type ServicoType,type PedidoSevicoType ,type PrestadorType,  } from "./utils/types.js";
+import { type ServicoDBType,type PedidoSevicoType ,type PrestadorType,  } from "./utils/types.js";
 
 
 const taxaUrgencia: number = 0.2;
@@ -9,7 +9,7 @@ const mnnimoDesconto: number = 1000;
 const percentagemDesconto: number = 0.1;
 
 
-const servicosSelecionadas: ServicoType[] = [];
+const servicosSelecionadas: ServicoDBType[] = [];
 const prestadoresDeServico: PrestadorType[] = [];
 const prestadoresSelecionados: PrestadorType[] = [];
 

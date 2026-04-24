@@ -79,15 +79,15 @@ export interface UserType {
 }
 
 
-export interface ServicoType {
-    id:string ,
-    nome:string ,
-    descricao:string,
-    categoria:string,
-    enabled:boolean,
-    created_at:string ,
-    update_at:string
-}
+// export interface ServicoType {
+//     id:string ,
+//     nome:string ,
+//     descricao:string,
+//     categoria:string,
+//     enabled:boolean,
+//     created_at:string ,
+//     updated_at:string
+// }
 
 export interface PrestadorType {
     id:string ,
@@ -113,20 +113,13 @@ export interface ListaServicoType {
 }
 
 export interface ServicoDBType {
-    prescentagem_desconto: any;
-    minimo_desconto: any;
-    taxa_urgencia: any;
-    profissao: any;
-    nif: any;
-    disponivel: any;
     id:string,
     id_categoria:string,
     nome:string,
     descricao:string,
-    categoria:string,
     enabled:boolean,
     created_at:string,
-    update_at:string
+    updated_at:string
 }
 
 export interface PrestadorDBType {

@@ -6,7 +6,7 @@ import type { OrcamentoDBType } from "../../utils/types.js";
 
 export const orcamentoResolver = {
     Query: {
-        getAllOrcamentos: async () => {
+        getAllOrcamento: async () => {
             return await OrcamentoModel.getAll();
         },
         getOrcamentoById: async (_: any, args: { id: string }) => {

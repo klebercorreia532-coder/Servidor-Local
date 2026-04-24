@@ -35,8 +35,13 @@ const graphqlServer = new ApolloServer({
 
 await graphqlServer.start()
 
-app.use("/graphql", expressMiddleware(graphqlServer, { context: async ({ req }) => ({  
+app.use("/graphql", 
+  expressMiddleware(graphqlServer, { context: async ({ req }) => ({  
   Token: req.headers.authorization,
+  DB_HOST: process.env.DB_HOST,
+  DB_USER: process.env.DB_USER,
+  DB_PASSWORD: process.env.DB_PASSWORD,
+  DB_NAME: process.env.DB_DATABASE,
 }) })
 );
 
