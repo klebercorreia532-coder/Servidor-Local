@@ -11,10 +11,16 @@ import dotenv from "dotenv"
 import { resolvers, typeDefs } from "./graphql/index.js";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@as-integrations/express5";
+import cors from "cors"
 
 const app = express();
 
 app.use(express.json());
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true,
+  
+}))
 
 dotenv.config();
 

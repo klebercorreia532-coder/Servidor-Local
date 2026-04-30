@@ -19,7 +19,7 @@ const userRouter = {
 
 const router = Router()
 router.post(userRouter.login,UserController.login)
-router.post(userRouter.create,authorize([Role.ADMIN]), UserController.create)
+router.post(userRouter.create, UserController.create)
 
 router.use(authMiddleware)
 
